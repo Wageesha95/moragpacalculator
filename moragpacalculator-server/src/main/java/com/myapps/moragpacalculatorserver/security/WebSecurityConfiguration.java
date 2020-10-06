@@ -1,15 +1,10 @@
 package com.myapps.moragpacalculatorserver.security;
 
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.oidc.IdTokenClaimNames;
 
 @Configuration
 @EnableWebSecurity
@@ -23,6 +18,7 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter impl
                 .httpBasic().disable();
     }
 }
+
 //@Configuration
 //public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //    @Override
@@ -33,13 +29,20 @@ public class WebSecurityConfiguration  extends WebSecurityConfigurerAdapter impl
 //                .and().oauth2Login();
 //    }
 //
+//    @Bean
+//    public ClientRegistrationRepository clientRegistrationRepository() {
+//        List<ClientRegistration> registrations = new ArrayList<>();
+//        registrations.add(googleClientRegistration());
+//        return new InMemoryClientRegistrationRepository(registrations);
+//    }
+//
 //    private ClientRegistration googleClientRegistration() {
 //        return ClientRegistration.withRegistrationId("google")
 //                .clientId("google-client-id")
 //                .clientSecret("google-client-secret")
 //                .clientAuthenticationMethod(ClientAuthenticationMethod.BASIC)
 //                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-//                .redirectUriTemplate("{baseUrl}/login/oauth2/code/{registrationId}")
+//                .redirectUriTemplate("http://localhost:8080/login/oauth2/code/{registrationId}")
 //                .scope("openid", "profile", "email", "address", "phone")
 //                .authorizationUri("https://accounts.google.com/o/oauth2/v2/auth")
 //                .tokenUri("https://www.googleapis.com/oauth2/v4/token")

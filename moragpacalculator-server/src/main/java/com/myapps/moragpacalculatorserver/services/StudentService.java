@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface StudentService {
 
-    ResponseEntity<List<Student>> getAllStudents();
-    ResponseEntity<Student> signUpStudent(Student student);
+//    ResponseEntity<List<Student>> getAllStudents();
+//    ResponseEntity<Student> signUpStudent(Student student);
 
 }

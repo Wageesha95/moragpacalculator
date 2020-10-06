@@ -16,8 +16,7 @@ public class Module {
     private Boolean gpa;
     private Boolean elective;
 
-    public Module(String id, String module_code, String module_name, Float module_credits, Boolean gpa, Boolean elective) {
-        this.id = id;
+    public Module(String module_code, String module_name, Float module_credits, Boolean gpa, Boolean elective) {
         this.module_code = module_code;
         this.module_name = module_name;
         this.module_credits = module_credits;

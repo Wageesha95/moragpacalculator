@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.HashMap;
 import java.util.List;
 
-
+@Document("Courses")
 public class Course {
     @Id
     private String id;

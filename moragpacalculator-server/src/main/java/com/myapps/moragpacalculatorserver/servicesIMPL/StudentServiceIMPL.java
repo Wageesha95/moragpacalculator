@@ -1,4 +1,4 @@
-package com.myapps.moragpacalculatorserver.serviceIMPL;
+package com.myapps.moragpacalculatorserver.servicesIMPL;
 
 
 import org.springframework.stereotype.Component;

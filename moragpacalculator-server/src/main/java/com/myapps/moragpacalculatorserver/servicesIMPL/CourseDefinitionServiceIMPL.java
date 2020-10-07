@@ -1,6 +1,5 @@
-package com.myapps.moragpacalculatorserver.serviceIMPL;
+package com.myapps.moragpacalculatorserver.servicesIMPL;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myapps.moragpacalculatorserver.dataModels.CourseDefinition;
 import com.myapps.moragpacalculatorserver.repositories.CourseDefinitionRepository;
 import com.myapps.moragpacalculatorserver.services.CourseDefinitionService;
@@ -8,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Map;
 
 @Service
 public class CourseDefinitionServiceIMPL implements CourseDefinitionService {

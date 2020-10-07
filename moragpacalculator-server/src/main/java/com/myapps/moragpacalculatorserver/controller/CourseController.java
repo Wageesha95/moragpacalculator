@@ -20,9 +20,9 @@ public class CourseController {
         System.out.println();
         return courseDefinitionService.addNewCourseDefinition(courseDefinition);
     }
-//    @GetMapping("/modules")
+//    @GetMapping("/courses")
 //    //@PreAuthorize("hasRole('USER')")
-//    public ResponseEntity<List<Module>> getAllModules() {
-//        return moduleService.getAllModules();
+//    public ResponseEntity<List<CourseDefinition>> getAllCourseDefinitions() {
+//        return courseDefinitionService.getAllCourseDefinitions();
 //    }
 }

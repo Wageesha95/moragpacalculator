@@ -13,6 +13,8 @@ public class Student {
 
     private StudentCategory studentCategory;
 
+    private Course course;
+
     public Student() {
     }
 
@@ -46,6 +48,13 @@ public class Student {
         this.studentCategory = studentCategory;
     }
 
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
 }
 
 

@@ -1,4 +1,4 @@
-package com.myapps.moragpacalculatorserver.serviceIMPL;
+package com.myapps.moragpacalculatorserver.servicesIMPL;
 
 import com.myapps.moragpacalculatorserver.repositories.CourseDefinitionRepository;
 import com.myapps.moragpacalculatorserver.services.SemesterService;
@@ -10,6 +10,16 @@ public class SemesterServiceIMPL implements SemesterService {
 
     @Autowired
     private CourseDefinitionRepository courseRepository;
+
+//    ResponseEntity<Semester> updateSemester(String userId,Semester semester){
+//        try {
+//            Semester _semester= new Semester();
+//            moduleRepository.save(_module);
+//            return new ResponseEntity<>(_semester, HttpStatus.CREATED);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+//        }
+//    }
 
 
 //    public ResponseEntity<List<Module>> createSemester(StudentCategory studentCategory){

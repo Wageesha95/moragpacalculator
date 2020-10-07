@@ -1,6 +1,6 @@
-package com.myapps.moragpacalculatorserver.serviceIMPL;
+package com.myapps.moragpacalculatorserver.servicesIMPL;
 
-import com.myapps.moragpacalculatorserver.dataModels.Module;
+import com.myapps.moragpacalculatorserver.dataModels.ModuleDefinition;
 import com.myapps.moragpacalculatorserver.repositories.ModuleRepository;
 import com.myapps.moragpacalculatorserver.services.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,24 +19,24 @@ public class ModuleServiceIMPL implements ModuleService {
     @Autowired
     private ModuleRepository moduleRepository;
 
-    public ResponseEntity<Module> addNewModule(Module module) {
+    public ResponseEntity<ModuleDefinition> addNewModule(ModuleDefinition moduleDefinition) {
         try {
-            Module _module = new Module(module.getModule_code(), module.getModule_name(), module.getModule_credits(), module.getGpa(), module.getElective(),module.getDefault_Sem());
-            moduleRepository.save(_module);
-            return new ResponseEntity<>(_module, HttpStatus.CREATED);
+            ModuleDefinition _moduleDefinition = new ModuleDefinition(moduleDefinition.getModule_code(), moduleDefinition.getModule_name(), moduleDefinition.getModule_credits(), moduleDefinition.getGpa(), moduleDefinition.getElective());
+            moduleRepository.save(_moduleDefinition);
+            return new ResponseEntity<>(_moduleDefinition, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
     }
 
-    public ResponseEntity<List<Module>> getAllModules() {
+    public ResponseEntity<List<ModuleDefinition>> getAllModules() {
         try {
-            List<Module> modules = new ArrayList<Module>();
-                moduleRepository.findAll().forEach(modules::add);
-            if (modules.isEmpty()) {
+            List<ModuleDefinition> moduleDefinitions = new ArrayList<ModuleDefinition>();
+                moduleRepository.findAll().forEach(moduleDefinitions::add);
+            if (moduleDefinitions.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            return new ResponseEntity<>(modules, HttpStatus.OK);
+            return new ResponseEntity<>(moduleDefinitions, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

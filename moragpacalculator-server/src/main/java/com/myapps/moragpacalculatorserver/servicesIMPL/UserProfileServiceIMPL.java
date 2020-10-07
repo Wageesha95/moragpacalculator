@@ -1,4 +1,4 @@
-package com.myapps.moragpacalculatorserver.serviceIMPL;
+package com.myapps.moragpacalculatorserver.servicesIMPL;
 
 import com.myapps.moragpacalculatorserver.dataModels.UserProfile;
 import com.myapps.moragpacalculatorserver.repositories.UserProfileRepository;

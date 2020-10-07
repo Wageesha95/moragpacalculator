@@ -3,13 +3,11 @@ package com.myapps.moragpacalculatorserver.dataModels;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-@Document(collection = "Courses")
+@Document(collection = "Course_Definitions")
 public class CourseDefinition {
     private String courseName;
-    private HashMap<String,ArrayList<String>> courseContentDefinition;
+    private ArrayList<SemesterDefinition> courseContentDefinition;
 
     public CourseDefinition() {
     }
@@ -26,11 +24,11 @@ public class CourseDefinition {
         this.courseName = courseName;
     }
 
-    public HashMap<String, ArrayList<String>> getCourseContentDefinition() {
+    public ArrayList<SemesterDefinition> getCourseContentDefinition() {
         return courseContentDefinition;
     }
 
-    public void setCourseContentDefinition(HashMap<String, ArrayList<String>> courseContentDefinition) {
+    public void setCourseContentDefinition(ArrayList<SemesterDefinition> courseContentDefinition) {
         this.courseContentDefinition = courseContentDefinition;
     }
 }

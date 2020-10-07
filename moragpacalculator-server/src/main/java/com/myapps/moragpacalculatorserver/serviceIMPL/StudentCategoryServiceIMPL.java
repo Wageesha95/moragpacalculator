@@ -30,5 +30,24 @@ public class StudentCategoryServiceIMPL implements StudentCategoryService {
         }
     }
 
+    public ResponseEntity<List<StudentCategory>> getAllStudentCategories() {
 
+        try {
+            List<StudentCategory> studentCategories = new ArrayList<StudentCategory>();
+
+//                if (category == null)
+            studentCategoryRepository.findAll().forEach(studentCategories::add);
+//                else
+//                    advertisementRepository.findByCategoryContaining(category).forEach(advertisements::add);
+
+            if (studentCategories.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+
+            return new ResponseEntity<>(studentCategories, HttpStatus.OK);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -13,20 +13,14 @@ public class Student {
 
     private StudentCategory studentCategory;
 
-    private Enrollement enrollement;
+    public Student() {
+    }
 
-    public Student(String id, UserProfile userProfile, StudentCategory studentCategory) {
-        this.id = id;
+    public Student(UserProfile userProfile, StudentCategory studentCategory) {
         this.userProfile = userProfile;
         this.studentCategory = studentCategory;
     }
 
-    public Student(String id, UserProfile userProfile, StudentCategory studentCategory, Enrollement enrollement) {
-        this.id = id;
-        this.userProfile = userProfile;
-        this.studentCategory = studentCategory;
-        this.enrollement = enrollement;
-    }
 
     public String getId() {
         return id;
@@ -52,13 +46,6 @@ public class Student {
         this.studentCategory = studentCategory;
     }
 
-    public Enrollement getEnrollement() {
-        return enrollement;
-    }
-
-    public void setEnrollement(Enrollement enrollement) {
-        this.enrollement = enrollement;
-    }
 }
 
 

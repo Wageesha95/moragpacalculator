@@ -6,8 +6,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public interface StudentCategoryService {
-
-    ResponseEntity<StudentCategory> addNewStudentCategory(StudentCategory studentCategory);
-    ResponseEntity<List<StudentCategory>> getAllStudentCategories();
+public interface SemesterService {
+    //ResponseEntity<List<Module>> createSemester(StudentCategory studentCategory);
 }

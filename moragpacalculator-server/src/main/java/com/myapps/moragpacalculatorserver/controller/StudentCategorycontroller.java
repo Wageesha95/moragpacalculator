@@ -1,7 +1,6 @@
 package com.myapps.moragpacalculatorserver.controller;
 
-import com.myapps.moragpacalculatorserver.dataModels.Module;
-import com.myapps.moragpacalculatorserver.services.ModuleService;
+import com.myapps.moragpacalculatorserver.dataModels.StudentCategory;
 import com.myapps.moragpacalculatorserver.services.StudentCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,25 +12,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @Controller
-public class ModuleController {
-
+public class StudentCategorycontroller {
 
     @Autowired
-    private ModuleService moduleService;
+    private StudentCategoryService studentCategoryService;
 
-    @PostMapping("/modules")
+    @PostMapping("/student-categories")
     //@PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Module> addNewModule(@RequestBody Module module) {
-        return moduleService.addNewModule(module);
+    public ResponseEntity<StudentCategory> addNewStudentCategory(@RequestBody StudentCategory studentCategory) {
+        return studentCategoryService.addNewStudentCategory(studentCategory);
     }
-    @GetMapping("/modules")
+    @GetMapping("/student-categories")
     //@PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<Module>> getAllModules() {
-        return moduleService.getAllModules();
+    public ResponseEntity<List<StudentCategory>> getAllStudentCategories() {
+        return studentCategoryService.getAllStudentCategories();
     }
 
-    //add
-    //update
-    //delete
-    //find
 }

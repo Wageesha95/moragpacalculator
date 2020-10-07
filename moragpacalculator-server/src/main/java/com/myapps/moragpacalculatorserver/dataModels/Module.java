@@ -15,13 +15,15 @@ public class Module {
     private Float module_credits;
     private Boolean gpa;
     private Boolean elective;
+    private String default_Sem;
 
-    public Module(String module_code, String module_name, Float module_credits, Boolean gpa, Boolean elective) {
+    public Module(String module_code, String module_name, Float module_credits, Boolean gpa, Boolean elective, String default_Sem) {
         this.module_code = module_code;
         this.module_name = module_name;
         this.module_credits = module_credits;
         this.gpa = gpa;
         this.elective = elective;
+        this.default_Sem = default_Sem;
     }
 
     public String getId() {
@@ -70,5 +72,13 @@ public class Module {
 
     public void setElective(Boolean elective) {
         this.elective = elective;
+    }
+
+    public String getDefault_Sem() {
+        return default_Sem;
+    }
+
+    public void setDefault_Sem(String default_Sem) {
+        this.default_Sem = default_Sem;
     }
 }

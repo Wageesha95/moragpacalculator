@@ -21,7 +21,7 @@ public class ModuleServiceIMPL implements ModuleService {
 
     public ResponseEntity<Module> addNewModule(Module module) {
         try {
-            Module _module = new Module(module.getModule_code(), module.getModule_name(), module.getModule_credits(), module.getGpa(), module.getElective());
+            Module _module = new Module(module.getModule_code(), module.getModule_name(), module.getModule_credits(), module.getGpa(), module.getElective(),module.getDefault_Sem());
             moduleRepository.save(_module);
             return new ResponseEntity<>(_module, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -30,23 +30,15 @@ public class ModuleServiceIMPL implements ModuleService {
     }
 
     public ResponseEntity<List<Module>> getAllModules() {
-
-            try {
-                List<Module> modules = new ArrayList<Module>();
-
-//                if (category == null)
-                    moduleRepository.findAll().forEach(modules::add);
-//                else
-//                    advertisementRepository.findByCategoryContaining(category).forEach(advertisements::add);
-
-                if (modules.isEmpty()) {
-                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-                }
-
-                return new ResponseEntity<>(modules, HttpStatus.OK);
-
-            } catch (Exception e) {
-                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        try {
+            List<Module> modules = new ArrayList<Module>();
+                moduleRepository.findAll().forEach(modules::add);
+            if (modules.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
+            return new ResponseEntity<>(modules, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

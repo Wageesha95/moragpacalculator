@@ -10,9 +10,10 @@ public class UserProfile {
     private String id;
     private String name;
 
-    public UserProfile(String id, String name) {
-        this.id = id;
+    public UserProfile( String name) {
         this.name = name;
+    }
+    public UserProfile() {
     }
 
     public String getId() {

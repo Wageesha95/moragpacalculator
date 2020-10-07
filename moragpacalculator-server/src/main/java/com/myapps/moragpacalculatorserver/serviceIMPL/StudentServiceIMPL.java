@@ -1,17 +1,8 @@
 package com.myapps.moragpacalculatorserver.serviceIMPL;
 
 
-import com.myapps.moragpacalculatorserver.dataModels.Student;
-import com.myapps.moragpacalculatorserver.repositories.StudentRepository;
-import com.myapps.moragpacalculatorserver.services.StudentService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 @Service
@@ -43,9 +34,17 @@ public class StudentServiceIMPL{
 //
 //    };
 //
-//    public ResponseEntity<Student> signUpStudent(Student student) {
+//    public ResponseEntity<Student> studentProfileCreation(StudentCategory studentCategory) {
+//        try{
+//            if(studentCategory.getCourse().equals("IT")){
+//                Enrollement _enrollement = new Enrollement();
+//                _enrollement.setStudentCategory(studentCategory);
+//                _enrollement.setEnrolled_semesters();
+//            }
+//        }
 //        try {
 //            Student _student = new Student();
+//
 //            _student.setName(student.getName());
 //            _student.setEmail(student.getEmail());
 //            studentRepository.save(_student);

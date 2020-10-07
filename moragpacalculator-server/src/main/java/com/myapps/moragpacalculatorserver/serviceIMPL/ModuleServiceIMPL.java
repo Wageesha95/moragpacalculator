@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 @Service
 public class ModuleServiceIMPL implements ModuleService {
@@ -24,5 +27,26 @@ public class ModuleServiceIMPL implements ModuleService {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
         }
+    }
+
+    public ResponseEntity<List<Module>> getAllModules() {
+
+            try {
+                List<Module> modules = new ArrayList<Module>();
+
+//                if (category == null)
+                    moduleRepository.findAll().forEach(modules::add);
+//                else
+//                    advertisementRepository.findByCategoryContaining(category).forEach(advertisements::add);
+
+                if (modules.isEmpty()) {
+                    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                }
+
+                return new ResponseEntity<>(modules, HttpStatus.OK);
+
+            } catch (Exception e) {
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
     }
 }

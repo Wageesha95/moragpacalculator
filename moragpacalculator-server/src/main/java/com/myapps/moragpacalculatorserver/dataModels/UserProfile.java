@@ -1,8 +1,9 @@
 package com.myapps.moragpacalculatorserver.dataModels;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-
+@Document(collection = "profiles")
 public class UserProfile {
 
     @Id

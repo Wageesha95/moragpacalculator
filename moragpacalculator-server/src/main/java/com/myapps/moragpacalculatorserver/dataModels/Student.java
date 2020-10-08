@@ -1,6 +1,7 @@
 package com.myapps.moragpacalculatorserver.dataModels;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Students")
@@ -10,9 +11,9 @@ public class Student {
     private String id;
 
     private UserProfile userProfile;
-
+    @DBRef
     private StudentCategory studentCategory;
-
+    @DBRef
     private Course course;
 
     public Student() {

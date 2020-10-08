@@ -1,6 +1,7 @@
 package com.myapps.moragpacalculatorserver.dataModels;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.HashMap;
@@ -10,7 +11,9 @@ import java.util.List;
 public class Course {
     @Id
     private String id;
+    private String userId;
     private String courseName;
+    @DBRef
     private HashMap<String,Semester> courseContent;
 
     public String getId() {
@@ -19,6 +22,14 @@ public class Course {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getCourseName() {

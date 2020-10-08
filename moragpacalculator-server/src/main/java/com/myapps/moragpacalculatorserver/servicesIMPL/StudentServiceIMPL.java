@@ -1,12 +1,46 @@
 package com.myapps.moragpacalculatorserver.servicesIMPL;
 
 
-import org.springframework.stereotype.Component;
+import com.myapps.moragpacalculatorserver.dataModels.Course;
+import com.myapps.moragpacalculatorserver.dataModels.Student;
+import com.myapps.moragpacalculatorserver.dataModels.StudentCategory;
+import com.myapps.moragpacalculatorserver.dataModels.UserProfile;
+import com.myapps.moragpacalculatorserver.repositories.StudentCategoryRepository;
+import com.myapps.moragpacalculatorserver.repositories.StudentRepository;
+import com.myapps.moragpacalculatorserver.services.CourseService;
+import com.myapps.moragpacalculatorserver.services.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-@Component
 @Service
-public class StudentServiceIMPL{
+public class StudentServiceIMPL implements StudentService {
+
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private StudentCategoryRepository studentCategoryRepository;
+
+    public ResponseEntity<Student> createStudent(String userId, StudentCategory studentCategory){
+        Student student = new Student();
+        try{
+            Course course = courseService.createCourse(userId,studentCategory);
+
+            //student.setUserProfile(userProfile);
+            student.setStudentCategory(studentCategoryRepository.findStudentCategoryByFacultyAndBatchAndCourse(studentCategory.getFaculty(), studentCategory.getBatch(), studentCategory.getCourse()));
+            student.setCourse(course);
+            studentRepository.save(student);
+            return new ResponseEntity<>(student, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        }
+    }
 
 //    @Autowired
 //    private StudentRepository studentRepository;
@@ -53,6 +87,3 @@ public class StudentServiceIMPL{
 //            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
 //        }
 //    }
-
-
-}

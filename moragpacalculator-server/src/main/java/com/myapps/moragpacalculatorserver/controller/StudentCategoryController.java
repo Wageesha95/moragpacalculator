@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @Controller
-public class StudentCategorycontroller {
+public class StudentCategoryController {
 
     @Autowired
     private StudentCategoryService studentCategoryService;

@@ -1,5 +1,6 @@
 package com.myapps.moragpacalculatorserver.controller;
 
+import com.myapps.moragpacalculatorserver.dataModels.Student;
 import com.myapps.moragpacalculatorserver.dataModels.StudentCategory;
 import com.myapps.moragpacalculatorserver.services.ModuleService;
 import com.myapps.moragpacalculatorserver.services.StudentService;
@@ -18,12 +19,12 @@ import java.util.List;
 public class StudentController {
 
     @Autowired
-    private ModuleService moduleService;
+    private StudentService studentService;
 
     @PostMapping("/{userId}/student")
     //@PreAuthorize("hasRole('USER')")
-    public ResponseEntity <List<Module>> createStudent(@PathVariable("userId") String userId, @RequestBody StudentCategory studentCategory) {
-        return moduleService.enrollForDefaultModules(userId, studentCategory);
+    public ResponseEntity <Student> createStudent(@PathVariable("userId") String userId, @RequestBody StudentCategory studentCategory) {
+        return studentService.createStudent(userId, studentCategory);
     }
     //update user profile
     //update enrolements

@@ -1,6 +1,7 @@
 package com.myapps.moragpacalculatorserver.dataModels;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Modules")
@@ -9,7 +10,8 @@ public class Module {
     @Id
     private String id;
     private String userId;
-    private String semesterNo;
+    @DBRef
+    private StudentCategory studentCategory;
     private String moduleCode;
     private String moduleName;
     private Float result;
@@ -20,9 +22,9 @@ public class Module {
     public Module() {
     }
 
-    public Module(String userId, String semesterNo, String moduleCode, String moduleName, Float result, Float credit, Boolean gpa, Boolean elective) {
+    public Module(String userId, StudentCategory studentCategory, String moduleCode, String moduleName, Float result, Float credit, Boolean gpa, Boolean elective) {
         this.userId = userId;
-        this.semesterNo = semesterNo;
+        this.studentCategory = studentCategory;
         this.moduleCode = moduleCode;
         this.moduleName = moduleName;
         this.result = result;
@@ -47,12 +49,12 @@ public class Module {
         this.userId = userId;
     }
 
-    public String getSemesterNo() {
-        return semesterNo;
+    public StudentCategory getStudentCategory() {
+        return studentCategory;
     }
 
-    public void setSemesterNo(String semesterNo) {
-        this.semesterNo = semesterNo;
+    public void setStudentCategory(StudentCategory studentCategory) {
+        this.studentCategory = studentCategory;
     }
 
     public String getModuleCode() {

@@ -5,6 +5,7 @@ import com.myapps.moragpacalculatorserver.dataModels.*;
 import com.myapps.moragpacalculatorserver.repositories.CourseDefinitionRepository;
 import com.myapps.moragpacalculatorserver.repositories.ModuleDefinitionRepository;
 import com.myapps.moragpacalculatorserver.repositories.ModuleRepository;
+import com.myapps.moragpacalculatorserver.repositories.StudentCategoryRepository;
 import com.myapps.moragpacalculatorserver.services.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,9 @@ public class ModuleServiceIMPL implements ModuleService {
     @Autowired
     private ModuleRepository moduleRepository;
 
+    @Autowired
+    private StudentCategoryRepository studentCategoryRepository;
+
     public ResponseEntity<List<Module>> enrollForDefaultModules(String userId, StudentCategory studentCategory) {
 
         try {
@@ -43,19 +47,20 @@ public class ModuleServiceIMPL implements ModuleService {
                 semesterDefinition.getModuleCodes().forEach(moduleCodesArrayList::add);
                 for (String moduleCode : moduleCodesArrayList) {
                     ModuleDefinition moduleDefinition = moduleDefinitionRepository.findByModuleCode(moduleCode);
+                    if(!moduleDefinition.getElective()){
+                        Module _module = new Module();
+                        _module.setUserId(userId);
+                        _module.setStudentCategory(studentCategoryRepository.findStudentCategoryByFacultyAndBatchAndCourse(studentCategory.getFaculty(),studentCategory.getBatch(),studentCategory.getCourse()));
+                        _module.setModuleCode(moduleCode);
+                        _module.setModuleName(moduleDefinition.getModuleName());
+                        _module.setCredit(moduleDefinition.getModuleCredits());
+                        _module.setResult(null);
+                        _module.setGpa(moduleDefinition.getGpa());
+                        _module.setElective(moduleDefinition.getElective());
 
-                    Module _module = new Module();
-                    _module.setUserId(userId);
-                    _module.setSemesterNo(semesterDefinition.getSemesterNo());
-                    _module.setModuleCode(moduleCode);
-                    _module.setModuleName(moduleDefinition.getModuleName());
-                    _module.setCredit(moduleDefinition.getModuleCredits());
-                    _module.setResult(null);
-                    _module.setGpa(moduleDefinition.getGpa());
-                    _module.setElective(moduleDefinition.getElective());
-
-                    moduleRepository.save(_module);
-                    moduleArrayList.add(_module);
+                        moduleRepository.save(_module);
+                        moduleArrayList.add(_module);
+                    }
                 }
             }
             return new ResponseEntity<>(moduleArrayList, HttpStatus.OK);

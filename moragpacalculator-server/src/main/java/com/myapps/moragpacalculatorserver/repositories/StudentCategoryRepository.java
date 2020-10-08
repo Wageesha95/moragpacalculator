@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StudentCategoryRepository extends MongoRepository<StudentCategory,String> {
+    StudentCategory findStudentCategoryByFacultyAndBatchAndCourse(String faculty,String batch,String course);
 }

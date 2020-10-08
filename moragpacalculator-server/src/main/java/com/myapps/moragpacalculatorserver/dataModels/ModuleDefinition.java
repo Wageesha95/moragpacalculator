@@ -10,32 +10,32 @@ public class ModuleDefinition {
 
     @Id
     private String id;
-    private String module_code;
-    private String module_name;
-    private Float module_credits;
+    private String moduleCode;
+    private String moduleName;
+    private Float moduleCredits;
     private Boolean gpa;
     private Boolean elective;
-    private Float result;
+
 
     public ModuleDefinition() {
     }
 
-    public ModuleDefinition(String module_code, String module_name, Float module_credits, Boolean gpa, Boolean elective) {
-        this.module_code = module_code;
-        this.module_name = module_name;
-        this.module_credits = module_credits;
+    public ModuleDefinition(String moduleCode, String moduleName, Float moduleCredits, Boolean gpa, Boolean elective) {
+        this.moduleCode = moduleCode;
+        this.moduleName = moduleName;
+        this.moduleCredits = moduleCredits;
         this.gpa = gpa;
         this.elective = elective;
     }
 
-    public ModuleDefinition(String module_code, String module_name, Float module_credits, Boolean gpa, Boolean elective, Float result) {
-        this.module_code = module_code;
-        this.module_name = module_name;
-        this.module_credits = module_credits;
-        this.gpa = gpa;
-        this.elective = elective;
-        this.result = result;
-    }
+//    public ModuleDefinition(ModuleDefinition moduleDefinition) {
+//        this.moduleCode = moduleDefinition.getModuleCode();
+//        this.moduleName = moduleDefinition.getModuleName();
+//        this.moduleCredits = moduleDefinition.getModuleCredits();
+//        this.gpa = moduleDefinition.getGpa();
+//        this.elective = moduleDefinition.getElective();
+//    }
+
 
     public String getId() {
         return id;
@@ -45,28 +45,28 @@ public class ModuleDefinition {
         this.id = id;
     }
 
-    public String getModule_code() {
-        return module_code;
+    public String getModuleCode() {
+        return moduleCode;
     }
 
-    public void setModule_code(String module_code) {
-        this.module_code = module_code;
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
     }
 
-    public String getModule_name() {
-        return module_name;
+    public String getModuleName() {
+        return moduleName;
     }
 
-    public void setModule_name(String module_name) {
-        this.module_name = module_name;
+    public void setModuleName(String moduleName) {
+        this.moduleName = moduleName;
     }
 
-    public Float getModule_credits() {
-        return module_credits;
+    public Float getModuleCredits() {
+        return moduleCredits;
     }
 
-    public void setModule_credits(Float module_credits) {
-        this.module_credits = module_credits;
+    public void setModuleCredits(Float moduleCredits) {
+        this.moduleCredits = moduleCredits;
     }
 
     public Boolean getGpa() {
@@ -85,11 +85,4 @@ public class ModuleDefinition {
         this.elective = elective;
     }
 
-    public Float getResult() {
-        return result;
-    }
-
-    public void setResult(Float result) {
-        this.result = result;
-    }
 }

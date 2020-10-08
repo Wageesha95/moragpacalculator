@@ -1,12 +1,16 @@
 package com.myapps.moragpacalculatorserver.services;
 
+import com.myapps.moragpacalculatorserver.dataModels.Module;
 import com.myapps.moragpacalculatorserver.dataModels.ModuleDefinition;
+import com.myapps.moragpacalculatorserver.dataModels.StudentCategory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
 public interface ModuleService {
 
-    ResponseEntity<ModuleDefinition> addNewModule(ModuleDefinition moduleDefinition);
-    ResponseEntity<List<ModuleDefinition>> getAllModules();
+
+    ResponseEntity<List<Module>> enrollForDefaultModules(String userId, StudentCategory studentCategory);
 }

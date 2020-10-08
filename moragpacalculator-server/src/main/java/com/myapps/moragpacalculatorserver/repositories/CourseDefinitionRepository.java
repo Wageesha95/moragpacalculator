@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface CourseDefinitionRepository extends MongoRepository<CourseDefinition,String> {
 
+   CourseDefinition findCourseDefinitionByCourseName(String courseName);
 }

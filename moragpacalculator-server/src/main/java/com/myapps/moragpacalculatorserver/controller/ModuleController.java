@@ -1,6 +1,7 @@
 package com.myapps.moragpacalculatorserver.controller;
 
 import com.myapps.moragpacalculatorserver.dataModels.ModuleDefinition;
+import com.myapps.moragpacalculatorserver.services.ModuleDefinitionService;
 import com.myapps.moragpacalculatorserver.services.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,17 +17,17 @@ public class ModuleController {
 
 
     @Autowired
-    private ModuleService moduleService;
+    private ModuleDefinitionService moduleDefinitionService;
 
     @PostMapping("/modules")
     //@PreAuthorize("hasRole('USER')")
     public ResponseEntity<ModuleDefinition> addNewModule(@RequestBody ModuleDefinition moduleDefinition) {
-        return moduleService.addNewModule(moduleDefinition);
+        return moduleDefinitionService.addNewModule(moduleDefinition);
     }
     @GetMapping("/modules")
     //@PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<ModuleDefinition>> getAllModules() {
-        return moduleService.getAllModules();
+        return moduleDefinitionService.getAllModules();
     }
 
     //add

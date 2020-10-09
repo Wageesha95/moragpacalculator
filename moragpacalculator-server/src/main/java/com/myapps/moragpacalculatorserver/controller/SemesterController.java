@@ -8,7 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -23,10 +25,13 @@ public class SemesterController {
         return semesterService.getAllSemesters();
     }
 
-    @PutMapping("semester")
-    public ResponseEntity<Semester> updateSemester(Semester semester){
+    @PutMapping("/semester")
+    public ResponseEntity<Semester> updateSemester(@RequestBody Semester semester){
         return semesterService.updateSemester(semester);
     }
+
+
+
 //    @PostMapping("/{userId}/semester")
 //    //@PreAuthorize("hasRole('USER')")
 //    public ResponseEntity<Semester> updateSemester( @PathVariable("userId") String userId, @RequestBody Semester semester) {

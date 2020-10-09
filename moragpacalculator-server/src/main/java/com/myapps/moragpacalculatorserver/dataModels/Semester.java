@@ -21,6 +21,19 @@ public class Semester {
     private Float semesterGPA;
     private Float cumulativeGPA;
 
+    public Semester() {
+    }
+
+    public Semester(String id, String userId, StudentCategory studentCategory, String semesterNo, ArrayList<Module> semesterModule, Float semesterGPA, Float cumulativeGPA) {
+        this.id = id;
+        this.userId = userId;
+        this.studentCategory = studentCategory;
+        this.semesterNo = semesterNo;
+        this.semesterModule = semesterModule;
+        this.semesterGPA = semesterGPA;
+        this.cumulativeGPA = cumulativeGPA;
+    }
+
     public String getId() {
         return id;
     }

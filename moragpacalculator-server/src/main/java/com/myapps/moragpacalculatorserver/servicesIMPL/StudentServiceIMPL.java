@@ -26,10 +26,10 @@ public class StudentServiceIMPL implements StudentService {
     @Autowired
     private StudentCategoryRepository studentCategoryRepository;
 
-    public ResponseEntity<Student> createStudent(String userId, StudentCategory studentCategory){
+    public ResponseEntity<Student> createStudent(String userId, StudentCategory studentCategory) {
         Student student = new Student();
-        try{
-            Course course = courseService.createCourse(userId,studentCategory);
+        try {
+            Course course = courseService.createCourse(userId, studentCategory);
 
             //student.setUserProfile(userProfile);
             student.setStudentCategory(studentCategoryRepository.findStudentCategoryByFacultyAndBatchAndCourse(studentCategory.getFaculty(), studentCategory.getBatch(), studentCategory.getCourse()));
@@ -39,8 +39,8 @@ public class StudentServiceIMPL implements StudentService {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        }
     }
+}
 
 //    @Autowired
 //    private StudentRepository studentRepository;

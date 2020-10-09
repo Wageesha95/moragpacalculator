@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface StudentService {
 
-    //ResponseEntity<List<Student>> getAllStudents();
+    ResponseEntity<List<Student>> getAllStudents();
     //ResponseEntity<Student> studentProfileCreation(StudentCategory studentCategory);
     ResponseEntity<Student> createStudent(String userId, StudentCategory studentCategory);
 

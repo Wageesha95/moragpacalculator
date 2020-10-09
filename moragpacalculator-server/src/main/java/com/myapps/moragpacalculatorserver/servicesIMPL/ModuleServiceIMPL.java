@@ -23,9 +23,6 @@ import java.util.List;
 public class ModuleServiceIMPL implements ModuleService {
 
     @Autowired
-    private CourseDefinitionRepository courseDefinitionRepository;
-
-    @Autowired
     private ModuleDefinitionRepository moduleDefinitionRepository;
 
     @Autowired
@@ -63,6 +60,8 @@ public class ModuleServiceIMPL implements ModuleService {
             throw  e;
         }
     }
+
+
 
 //    public ResponseEntity<List<Module>> enrollForDefaultModules(String userId, StudentCategory studentCategory) {
 //

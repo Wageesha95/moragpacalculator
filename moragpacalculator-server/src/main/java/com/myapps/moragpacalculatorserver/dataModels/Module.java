@@ -18,12 +18,11 @@ public class Module {
     private Float credit;
     private Boolean gpa;
     private Boolean elective;
-    private Boolean enrollment;
 
     public Module() {
     }
 
-    public Module(String userId, StudentCategory studentCategory, String moduleCode, String moduleName, Float result, Float credit, Boolean gpa, Boolean elective, Boolean enrollment) {
+    public Module(String userId, StudentCategory studentCategory, String moduleCode, String moduleName, Float result, Float credit, Boolean gpa, Boolean elective) {
         this.userId = userId;
         this.studentCategory = studentCategory;
         this.moduleCode = moduleCode;
@@ -32,7 +31,6 @@ public class Module {
         this.credit = credit;
         this.gpa = gpa;
         this.elective = elective;
-        this.enrollment = enrollment;
     }
 
     public String getId() {
@@ -105,13 +103,5 @@ public class Module {
 
     public void setElective(Boolean elective) {
         this.elective = elective;
-    }
-
-    public Boolean getEnrollment() {
-        return enrollment;
-    }
-
-    public void setEnrollment(Boolean enrollment) {
-        this.enrollment = enrollment;
     }
 }

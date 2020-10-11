@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class UserProfileServiceIMPL implements UserProfileService {
 
@@ -23,15 +21,6 @@ public class UserProfileServiceIMPL implements UserProfileService {
             return new ResponseEntity<>(_userProfile, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
-        }
-    }
-    public UserProfile getUserProfile(String profileId) {
-        try {
-            Optional<UserProfile> userProfile = userProfileRepository.findById(profileId);
-            UserProfile _userProfile = userProfile.get();
-            return _userProfile;
-        } catch (Exception e) {
-            throw e;
         }
     }
 }

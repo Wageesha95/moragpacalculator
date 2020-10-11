@@ -79,7 +79,7 @@ public class SemesterServiceIMPL implements SemesterService {
         try {
             if (semesterExist.isPresent()) {
                 Semester _semester = semesterExist.get();
-                _semester.setSemesterModule(moduleService.updateSemesterModules(semester.getSemesterModule()));
+                _semester.setSemesterModule(semester.getSemesterModule());
                 _semester.setSemesterGPA(semester.getSemesterGPA());
                 _semester.setCumulativeGPA(semester.getCumulativeGPA());
 

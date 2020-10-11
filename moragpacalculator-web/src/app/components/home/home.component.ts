@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   getStudent(profileId:String) {
     this.StudentService.getStudentByProfileId(profileId).subscribe(
       response => {
+        console.log("student")
         console.log(response);
       })
   }

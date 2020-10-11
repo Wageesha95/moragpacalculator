@@ -9,6 +9,7 @@ import com.myapps.moragpacalculatorserver.repositories.StudentCategoryRepository
 import com.myapps.moragpacalculatorserver.repositories.StudentRepository;
 import com.myapps.moragpacalculatorserver.services.CourseService;
 import com.myapps.moragpacalculatorserver.services.StudentService;
+import com.myapps.moragpacalculatorserver.services.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +31,15 @@ public class StudentServiceIMPL implements StudentService {
     @Autowired
     private StudentCategoryRepository studentCategoryRepository;
 
-    public ResponseEntity<Student> createStudent(String userId, StudentCategory studentCategory) {
+    @Autowired
+    private UserProfileService userProfileService;
+
+    public ResponseEntity<Student> createStudent(String profileId, StudentCategory studentCategory) {
         Student student = new Student();
         try {
-            Course course = courseService.createCourse(userId, studentCategory);
+            Course course = courseService.createCourse(profileId, studentCategory);
 
-            //student.setUserProfile(userProfile);
+            student.setUserProfile(userProfileService.getUserProfile(profileId));
             student.setStudentCategory(studentCategoryRepository.findStudentCategoryByFacultyAndBatchAndCourse(studentCategory.getFaculty(), studentCategory.getBatch(), studentCategory.getCourse()));
             student.setCourse(course);
             studentRepository.save(student);
@@ -72,7 +76,8 @@ public class StudentServiceIMPL implements StudentService {
     public ResponseEntity <Student> getStudentByProfileId(String profileId) {
 
         try {
-            Optional<Student> student =studentRepository.findById(profileId);
+            UserProfile userProfile = userProfileService.getUserProfile(profileId);
+            Optional<Student> student =studentRepository.findByUserProfile(userProfile);
             if (!student.isPresent()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }

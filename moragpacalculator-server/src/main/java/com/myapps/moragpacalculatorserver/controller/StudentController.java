@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @Controller
 public class StudentController {
 
@@ -40,7 +41,7 @@ public class StudentController {
         return studentService.getAllStudents();
     }
     @GetMapping("/student")
-    public ResponseEntity <Student> getStudentByProfileId(String profileId){
+    public ResponseEntity <Student> getStudentByProfileId(@RequestParam(name = "profileId") String profileId){
         return studentService.getStudentByProfileId(profileId);
     }
 

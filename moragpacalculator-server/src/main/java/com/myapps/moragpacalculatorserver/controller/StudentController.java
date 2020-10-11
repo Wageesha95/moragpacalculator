@@ -39,6 +39,10 @@ public class StudentController {
     public ResponseEntity<List<Student>> getAllStudents() {
         return studentService.getAllStudents();
     }
+    @GetMapping("/student")
+    public ResponseEntity <Student> getStudentByProfileId(String profileId){
+        return studentService.getStudentByProfileId(profileId);
+    }
 
 
 }

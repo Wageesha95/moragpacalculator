@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceIMPL implements StudentService {
@@ -67,5 +68,22 @@ public class StudentServiceIMPL implements StudentService {
 
 
     }
+
+    public ResponseEntity <Student> getStudentByProfileId(String profileId) {
+
+        try {
+            Optional<Student> student =studentRepository.findById(profileId);
+            if (!student.isPresent()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+             Student _student = student.get();
+            return new ResponseEntity<>(_student, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
+
 
 }

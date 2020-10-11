@@ -6,6 +6,4 @@ import org.springframework.http.ResponseEntity;
 
 public interface UserProfileService {
     ResponseEntity<UserProfile> newUserRegistration(UserProfile userProfile);
-
-    UserProfile getUserProfile(String profileId);
 }

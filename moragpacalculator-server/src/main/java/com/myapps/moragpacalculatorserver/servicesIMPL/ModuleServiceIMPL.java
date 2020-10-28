@@ -1,8 +1,8 @@
 package com.myapps.moragpacalculatorserver.servicesIMPL;
 
 import com.myapps.moragpacalculatorserver.dataModels.Module;
-import com.myapps.moragpacalculatorserver.dataModels.ModuleDefinition;
-import com.myapps.moragpacalculatorserver.dataModels.StudentCategory;
+import com.myapps.moragpacalculatorserver.dataModels.*;
+import com.myapps.moragpacalculatorserver.repositories.CourseDefinitionRepository;
 import com.myapps.moragpacalculatorserver.repositories.ModuleDefinitionRepository;
 import com.myapps.moragpacalculatorserver.repositories.ModuleRepository;
 import com.myapps.moragpacalculatorserver.repositories.StudentCategoryRepository;
@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Component
 @Service
@@ -48,7 +50,6 @@ public class ModuleServiceIMPL implements ModuleService {
                     _module.setResult(null);
                     _module.setGpa(moduleDefinition.getGpa());
                     _module.setElective(moduleDefinition.getElective());
-                    _module.setEnrollment(true);
 
                     moduleRepository.save(_module);
                     semesterModuleArrayList.add(_module);
@@ -57,22 +58,6 @@ public class ModuleServiceIMPL implements ModuleService {
             return semesterModuleArrayList;
         } catch (Exception e) {
             throw  e;
-        }
-    }
-
-    public ArrayList<Module> updateSemesterModules( ArrayList<Module> semesterModulesArrayList) {
-        ArrayList <Module> newSemesterModuleArraylist = new ArrayList<>();
-        try{
-        for(Module module: semesterModulesArrayList){
-            Module _module = module;
-            _module.setResult(module.getResult());
-            _module.setEnrollment(module.getEnrollment());
-            moduleRepository.save(_module);
-            newSemesterModuleArraylist.add(_module);
-        }
-            return newSemesterModuleArraylist;
-        } catch (Exception e) {
-            throw e;
         }
     }
 

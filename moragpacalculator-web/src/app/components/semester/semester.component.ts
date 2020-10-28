@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Semester } from 'src/app/data-models/Semester';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-semester',
@@ -7,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SemesterComponent implements OnInit {
 
-  constructor() { }
+  @Input('semester_value') theSemester: Semester;
+
+  constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
+  }
+
+  openXl(content) {
+    this.modalService.open(content, { size: 'xl' });
   }
 
 }

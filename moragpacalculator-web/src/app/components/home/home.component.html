@@ -1,3 +1,6 @@
 <ul>
- <button (click)=getStudent(profileId)> get Student </button>
+    <button (click)=getStudent(profileId)> get Student </button>
 </ul>
+
+<app-semester *ngFor="let semester of theStudent.course.courseContent | keyvalue" [semester_value]="semester.value">
+</app-semester>

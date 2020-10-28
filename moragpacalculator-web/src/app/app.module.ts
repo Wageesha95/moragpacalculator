@@ -11,9 +11,11 @@ import { LoginComponent } from './components/login/login.component';
 import { SemesterComponent } from './components/semester/semester.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminService } from './services/data/admin.service';
-import {StudentService} from "./services/data/student.service";
+import { StudentService } from "./services/data/student.service";
 import { AdminComponent } from './components/admin/admin.component';
 import { ErrorComponent } from './components/error/error.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { SemesterEditorComponent } from './components/semester-editor/semester-editor.component';
 
 @NgModule({
   declarations: [
@@ -23,16 +25,18 @@ import { ErrorComponent } from './components/error/error.component';
     LoginComponent,
     SemesterComponent,
     AdminComponent,
-    ErrorComponent
+    ErrorComponent,
+    SemesterEditorComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
-  providers: [AdminService,StudentService],
+  providers: [AdminService, StudentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

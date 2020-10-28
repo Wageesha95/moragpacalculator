@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Student } from "../../data-models/Student";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -8,15 +8,15 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 export class StudentService {
 
   constructor(
-    private http:HttpClient
+    private http: HttpClient
   ) { }
 
- 
-  
+
+
   getStudentByProfileId(profileId) {
     let params = new HttpParams();
     params = params.append('profileId', profileId);
-    return this.http.get<Student[]>(`http://localhost:8081/student`,{params:params});
+    return this.http.get<Student>(`http://localhost:8081/student`, { params: params });
   }
 
 }

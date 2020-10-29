@@ -14,5 +14,5 @@ public interface ModuleService {
 
 
     ArrayList<Module> enrollForDefaultModules(String userId, StudentCategory studentCategory,ArrayList<String> moduleCodesArrayList);
-
+    ResponseEntity<Module> updateModule(Module newModuleData);
 }

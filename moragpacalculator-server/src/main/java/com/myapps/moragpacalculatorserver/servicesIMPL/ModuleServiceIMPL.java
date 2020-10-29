@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Service
@@ -50,6 +51,7 @@ public class ModuleServiceIMPL implements ModuleService {
                     _module.setResult(null);
                     _module.setGpa(moduleDefinition.getGpa());
                     _module.setElective(moduleDefinition.getElective());
+                    _module.setEnrollment(true);
 
                     moduleRepository.save(_module);
                     semesterModuleArrayList.add(_module);
@@ -62,8 +64,7 @@ public class ModuleServiceIMPL implements ModuleService {
     }
 
 
-
-//    public ResponseEntity<List<Module>> enrollForDefaultModules(String userId, StudentCategory studentCategory) {
+    //    public ResponseEntity<List<Module>> enrollForDefaultModules(String userId, StudentCategory studentCategory) {
 //
 //        try {
 //            ArrayList<Semester> allSemestersArrayList = new ArrayList<>();

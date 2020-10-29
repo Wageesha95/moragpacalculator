@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Component
 @Service
@@ -76,6 +77,22 @@ public class ModuleServiceIMPL implements ModuleService {
         }
     }
 
+    @Override
+    public ResponseEntity<Module> updateModule(Module newModuleData) {
+        try {
+            Optional<Module> existModule = moduleRepository.findById(newModuleData.getId());
+            if (existModule.isPresent()) {
+                Module _module = existModule.get();
+
+                _module.setEnrollment(newModuleData.getEnrollment());
+                moduleRepository.save(_module);
+                return new ResponseEntity<>(_module, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 //    public ResponseEntity<List<Module>> enrollForDefaultModules(String userId, StudentCategory studentCategory) {

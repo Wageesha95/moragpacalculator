@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import {StudentService} from "../../services/data/student.service";
+import { StudentService } from "../../services/data/student.service";
+import { Student } from "../../data-models/Student";
 
 @Component({
   selector: 'app-home',
@@ -9,19 +10,23 @@ import {StudentService} from "../../services/data/student.service";
 })
 export class HomeComponent implements OnInit {
 
-  profileId="5f7d2f5406d4835ca1b9c955";
+  profileId = "5f985cfa91ea123cba02beba";
+  theStudent: Student;
 
   constructor(private router: Router,
-    private StudentService:StudentService) { }
+    private StudentService: StudentService) { }
 
   ngOnInit(): void {
   }
 
-  getStudent(profileId:String) {
+  getStudent(profileId: String) {
     this.StudentService.getStudentByProfileId(profileId).subscribe(
       response => {
+        this.theStudent = response;
         console.log(response);
       })
   }
+
+  getAllCourseModuleDefinitions
 
 }

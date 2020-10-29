@@ -1,1 +1,119 @@
-<p>semester works!</p>
+<div class="container">
+    <h3>Semester_{{theSemester.semesterNo}}</h3>
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Module Code</th>
+                <th>Module Name</th>
+                <th>Grade</th>
+                <th>Credit</th>
+                <th>GPA</th>
+                <th>Module Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let module of theSemester.semesterModule; let i = index">
+                <td>{{i+1}}</td>
+                <td>{{module.moduleCode}}</td>
+                <td>{{module.moduleName | uppercase}}</td>
+                <div [ngSwitch]="module.result">
+                    <td *ngSwitchCase="4.2">A+</td>
+                    <td *ngSwitchCase="4.0">A</td>
+                    <td *ngSwitchCase="3.7">A-</td>
+                    <td *ngSwitchCase="3.3">B+</td>
+                    <td *ngSwitchCase="3.0">B</td>
+                    <td *ngSwitchCase="2.7">B-</td>
+                    <td *ngSwitchCase="2.3">C+</td>
+                    <td *ngSwitchCase="2.0">C</td>
+                    <td *ngSwitchCase="1.5">C-</td>
+                    <td *ngSwitchCase="1">D</td>
+                    <td *ngSwitchDefault>Pending</td>
+                </div>
+
+                <td>{{module.credit}}</td>
+                <td *ngIf="(module.gpa); else nonGPA">GPA</td>
+                <ng-template #nonGPA>
+                    <td>Non GPA</td>
+                </ng-template>
+                <td *ngIf="(module.elective); else compulsory">Elective</td>
+                <ng-template #compulsory>
+                    <td>Compulsory</td>
+                </ng-template>
+                <td *ngIf="!module.elective && !module.enrollment; then enroll   "></td>
+                <td *ngIf="!module.elective && module.enrollment; then unenroll   "></td>
+                <td *ngIf="module.elective && module.enrollment; then remove   "></td>
+                <ng-template #enroll>
+                    <td> <button (click)=enrollCompulsoryModule(module.id) class="btn btn-success">Enroll</button></td>
+                </ng-template>
+                <ng-template #unenroll>
+                    <td> <button (click)=unenrollCompulsoryModule(module.id) class="btn btn-success">Unenroll</button>
+                    </td>
+                </ng-template>
+                <ng-template #remove>
+                    <td> <button (click)=removeElectiveModule(module.id) class="btn btn-warning"> Remove</button></td>
+                </ng-template>
+
+
+            </tr>
+        </tbody>
+        <button class="btn btn-outline-primary mb-2 mr-2" (click)="openXl(content)">Edit Semester</button>
+    </table>
+
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Modal title</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container">
+            <h3>Semester_{{theSemester.semesterNo}}</h3>
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Module Code</th>
+                        <th>Module Name</th>
+                        <th>Grade</th>
+                        <th>Credit</th>
+                        <th>GPA</th>
+                        <th>Module Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let module of theSemester.semesterModule">
+                        <td>{{module.moduleCode}}</td>
+                        <td>{{module.moduleName | uppercase}}</td>
+                        <td>{{module.result}}</td>
+                        <td>{{module.credit}}</td>
+                        <td>{{module.gpa}}</td>
+                        <td>{{module.elective}}</td>
+                        <td>{{module.enrollment}}</td>
+                        <td> <button (click)=updateTodoId(todox.id) class="btn btn-success">Enrollment</button></td>
+                        <td> <button (click)=deleteTodo(todox.id) class="btn btn-warning"> Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>
+
+
+<!-- <td class="dropdown">
+    <button class="btn btn-default dropdown-togle icone-grid" data-toggle="dropdown">
+        <i class="fa fa-gears"></i>
+    </button>
+    <ul class="dropdown-menu" role="menu">
+        <li>
+            <a class="dropdown-item" href="#">Atualizar</a>
+        </li> -->

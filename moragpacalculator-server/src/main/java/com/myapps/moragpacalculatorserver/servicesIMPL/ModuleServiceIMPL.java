@@ -1,8 +1,8 @@
 package com.myapps.moragpacalculatorserver.servicesIMPL;
 
 import com.myapps.moragpacalculatorserver.dataModels.Module;
-import com.myapps.moragpacalculatorserver.dataModels.*;
-import com.myapps.moragpacalculatorserver.repositories.CourseDefinitionRepository;
+import com.myapps.moragpacalculatorserver.dataModels.ModuleDefinition;
+import com.myapps.moragpacalculatorserver.dataModels.StudentCategory;
 import com.myapps.moragpacalculatorserver.repositories.ModuleDefinitionRepository;
 import com.myapps.moragpacalculatorserver.repositories.ModuleRepository;
 import com.myapps.moragpacalculatorserver.repositories.StudentCategoryRepository;
@@ -15,9 +15,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
 
 @Component
 @Service
@@ -63,24 +60,25 @@ public class ModuleServiceIMPL implements ModuleService {
         }
     }
 
-    @Override
-    public ResponseEntity<Module> updateModule(Module newModuleData) {
+    public ArrayList<Module> updateSemesterModules( ArrayList<Module> semesterModulesArrayList) {
+        ArrayList <Module> newSemesterModuleArraylist = new ArrayList<>();
         try{
-            Optional<Module> existModule = moduleRepository.findById(newModuleData.getId());
-            if(existModule.isPresent()){
-                Module _module = existModule.get();
-                _module.setEnrollment(newModuleData.getEnrollment());
-
-                moduleRepository.save(_module);
-                return new ResponseEntity<>(_module, HttpStatus.OK);
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        for(Module module: semesterModulesArrayList){
+            Module _module = module;
+            _module.setResult(module.getResult());
+            _module.setEnrollment(module.getEnrollment());
+            moduleRepository.save(_module);
+            newSemesterModuleArraylist.add(_module);
+        }
+            return newSemesterModuleArraylist;
         } catch (Exception e) {
             throw e;
         }
     }
 
-    //    public ResponseEntity<List<Module>> enrollForDefaultModules(String userId, StudentCategory studentCategory) {
+
+
+//    public ResponseEntity<List<Module>> enrollForDefaultModules(String userId, StudentCategory studentCategory) {
 //
 //        try {
 //            ArrayList<Semester> allSemestersArrayList = new ArrayList<>();

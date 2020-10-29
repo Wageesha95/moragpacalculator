@@ -32,7 +32,7 @@ public class Module {
         this.credit = credit;
         this.gpa = gpa;
         this.elective = elective;
-        this.enrollment=enrollment;
+        this.enrollment = enrollment;
     }
 
     public String getId() {

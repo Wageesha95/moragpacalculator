@@ -41,7 +41,6 @@
                 <ng-template #compulsory>
                     <td>Compulsory</td>
                 </ng-template>
-                <td>{{module.enrollment}}</td>
                 <td *ngIf="!module.elective && !module.enrollment; then enroll   "></td>
                 <td *ngIf="!module.elective && module.enrollment; then unenroll   "></td>
                 <td *ngIf="module.elective && module.enrollment; then remove   "></td>

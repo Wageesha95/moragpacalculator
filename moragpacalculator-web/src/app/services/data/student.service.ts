@@ -27,7 +27,6 @@ export class StudentService {
   // }
 
   updateStudentSemesterModule(module: Module) {
-    return this.http.put(`http://localhost:8081/module`, module);
+    return this.http.put<Module>(`http://localhost:8081/module`, module);
   }
-
 }

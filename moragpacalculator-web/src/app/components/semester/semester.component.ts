@@ -27,12 +27,20 @@ export class SemesterComponent implements OnInit {
   }
 
   unenrollCompulsoryModule(moduleId) {
-    this.theSemester.semesterModule.find((module) => module.id === moduleId, [0]).enrollment = false;
-    this.studentSevice.updateStudentSemesterModule(module[0]);
+    const thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
+    thisModule.enrollment = false;
+    this.studentSevice.updateStudentSemesterModule(thisModule).subscribe(
+      response => {
+        console.log(response);
+      })
   }
 
   enrollCompulsoryModule(moduleId) {
-    this.theSemester.semesterModule.find((module) => module.id === moduleId, [0]).enrollment = true;
-    this.studentSevice.updateStudentSemesterModule(module[0]);
+    const thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
+    thisModule.enrollment = true;
+    this.studentSevice.updateStudentSemesterModule(thisModule).subscribe(
+      response => {
+        console.log(response);
+      })
   }
 }

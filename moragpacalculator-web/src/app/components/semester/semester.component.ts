@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Semester } from 'src/app/data-models/Semester';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Module } from 'src/app/data-models/Module';
 
 
 @Component({
@@ -11,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class SemesterComponent implements OnInit {
 
   @Input('semester_value') theSemester: Semester;
+  unenroledElectiveModuleArray: Module[];
 
   constructor(private modalService: NgbModal) { }
 
@@ -20,5 +22,6 @@ export class SemesterComponent implements OnInit {
   openXl(content) {
     this.modalService.open(content, { size: 'xl' });
   }
+
 
 }

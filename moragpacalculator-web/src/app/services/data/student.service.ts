@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Student } from "../../data-models/Student";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams, HttpResponse } from "@angular/common/http";
 import { Module } from 'src/app/data-models/Module';
 import { Observable } from 'rxjs';
 
@@ -26,6 +26,13 @@ export class StudentService {
     params = params.append('courseName', courseName);
     params = params.append('profileId', profileId);
     return this.http.get<Module[]>(`http://localhost:8081/unenrolled-elective-modules`, { params: params });
+  }
+
+  removeEnrolledElectiveModuleFromSemester(moduleId, semesterId) {
+    let params = new HttpParams();
+    params = params.append('moduleId', moduleId);
+    params = params.append('semesterId', semesterId);
+    return this.http.delete(`http://localhost:8081/module`, { params: params });
   }
 
   // updateStudentSemester(profileId) {

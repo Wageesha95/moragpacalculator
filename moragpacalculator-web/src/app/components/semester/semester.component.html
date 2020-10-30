@@ -52,12 +52,22 @@
                     </td>
                 </ng-template>
                 <ng-template #remove>
-                    <td> <button (click)=removeElectiveModule(module.id) class="btn btn-warning"> Remove</button></td>
+                    <td> <button (click)=removeEnrolledElectiveModuleFromSemester(module.id,theSemester.id)
+                            class="btn btn-warning">
+                            Remove</button></td>
                 </ng-template>
 
 
             </tr>
+            <tr></tr>
+            <tr>
+                <td>Total Semester Credits</td>
+                <td>{{calculateTotalSemesterCredits(theSemester)}}</td>
+                <td>Semester GPA</td>
+                <td>{{semesterGPA(theSemester)}}</td>
+            </tr>
         </tbody>
+
         <button class="btn btn-outline-primary mb-2 mr-2" (click)="openXl(content)">Edit Semester</button>
     </table>
 

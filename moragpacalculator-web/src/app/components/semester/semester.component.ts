@@ -4,7 +4,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Module } from 'src/app/data-models/Module';
 import { StudentService } from 'src/app/services/data/student.service';
 
-
 @Component({
   selector: 'app-semester',
   templateUrl: './semester.component.html',
@@ -14,13 +13,14 @@ export class SemesterComponent implements OnInit {
 
   @Input('semester_value') theSemester: Semester;
   unenroledElectiveModuleArray: Module[];
+  i = 0;
 
   constructor(
     private modalService: NgbModal,
-    private studentSevice: StudentService) { }
+    private studentService: StudentService) { }
 
   ngOnInit(): void {
-    this.getUnenrolledElectiveModules(this.theSemester.studentCategory.course, this.theSemester.semesterModule);
+    this.getUnenrolledElectiveModules(this.theSemester.studentCategory.course, this.theSemester.userId);
   }
 
   openXl(content) {
@@ -29,16 +29,17 @@ export class SemesterComponent implements OnInit {
 
   getUnenrolledElectiveModules(courseName, profileId) {
 
-    this.studentSevice.getUnenrolledElectiveModules(courseName, profileId).subscribe(
+    this.studentService.getUnenrolledElectiveModules(courseName, profileId).subscribe(
       response => {
-        console.log(response);
+        this.unenroledElectiveModuleArray = response;
+        console.log(this.unenroledElectiveModuleArray);
       })
   }
 
   unenrollCompulsoryModule(moduleId) {
     const thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
     thisModule.enrollment = false;
-    this.studentSevice.updateStudentSemesterModule(thisModule).subscribe(
+    this.studentService.updateStudentSemesterModule(thisModule).subscribe(
       response => {
         console.log(response);
       })
@@ -49,7 +50,7 @@ export class SemesterComponent implements OnInit {
   enrollCompulsoryModule(moduleId) {
     const thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
     thisModule.enrollment = true;
-    this.studentSevice.updateStudentSemesterModule(thisModule).subscribe(
+    this.studentService.updateStudentSemesterModule(thisModule).subscribe(
       response => {
         console.log(response);
       })

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -36,6 +37,11 @@ public class ModuleController {
     @PutMapping("/module")
     public ResponseEntity<Module> updateModule(@RequestBody Module newModuleData){
         return moduleService.updateModule(newModuleData);
+    }
+
+    @GetMapping("/unenrolled-elective-modules")
+    public ResponseEntity<ArrayList<Module>> getUnenenrolledElectiveModules(@RequestParam(name = "courseName") String courseName, @RequestParam(name="profileId") String profileId){
+        return moduleService.getUnenrolledElectiveModuleList(courseName,profileId);
     }
 
 

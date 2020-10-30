@@ -13,4 +13,5 @@ public interface ModuleService {
     ArrayList<Module> enrollForDefaultModules(String userId, StudentCategory studentCategory,ArrayList<String> moduleCodesArrayList);
     ArrayList<Module> updateSemesterModules( ArrayList<Module> semesterModulesArrayList);
     ResponseEntity<Module> updateModule(Module newModuleData);
+    ResponseEntity<ArrayList<Module>> getUnenrolledElectiveModuleList(String courseName,String profileId);
 }

@@ -6,6 +6,7 @@ import com.myapps.moragpacalculatorserver.dataModels.StudentCategory;
 import com.myapps.moragpacalculatorserver.repositories.ModuleDefinitionRepository;
 import com.myapps.moragpacalculatorserver.repositories.ModuleRepository;
 import com.myapps.moragpacalculatorserver.repositories.StudentCategoryRepository;
+import com.myapps.moragpacalculatorserver.services.ModuleDefinitionService;
 import com.myapps.moragpacalculatorserver.services.ModuleService;
 import com.myapps.moragpacalculatorserver.services.SemesterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class ModuleServiceIMPL implements ModuleService {
 
     @Autowired
     private SemesterService semesterService;
+
+    @Autowired
+    private ModuleDefinitionService moduleDefinitionService;
 
     public ArrayList<Module> enrollForDefaultModules(String userId, StudentCategory studentCategory,ArrayList<String> moduleCodesArrayList) {
 
@@ -89,6 +93,26 @@ public class ModuleServiceIMPL implements ModuleService {
                 return new ResponseEntity<>(_module, HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @Override
+    public ResponseEntity<ArrayList<Module>> getUnenrolledElectiveModuleList(String courseName, String profileId) {
+        try {
+            ArrayList<ModuleDefinition> allElectiveModuleDefinitionArrayList=moduleDefinitionService.getElectiveModules(courseName).getBody();
+            ArrayList<Module> allEnrolledElectiveModuleArrayList=moduleRepository.findAllByUserIdAndElectiveAndEnrollment(profileId,true,true);
+            ArrayList<Module> allUnenrolledElectiveModuleArrayList = new ArrayList<>();
+
+            for(ModuleDefinition moduleDefinition : allElectiveModuleDefinitionArrayList){
+                for(Module module :allEnrolledElectiveModuleArrayList){
+                    if(moduleDefinition.getModuleCode().equals(module.getModuleCode())){
+                        allUnenrolledElectiveModuleArrayList.add(module);
+                    }
+                }
+            }
+            return new ResponseEntity<>(allUnenrolledElectiveModuleArrayList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

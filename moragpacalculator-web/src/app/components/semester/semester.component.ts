@@ -20,10 +20,19 @@ export class SemesterComponent implements OnInit {
     private studentSevice: StudentService) { }
 
   ngOnInit(): void {
+    this.getUnenrolledElectiveModules(this.theSemester.studentCategory.course, this.theSemester.semesterModule);
   }
 
   openXl(content) {
     this.modalService.open(content, { size: 'xl' });
+  }
+
+  getUnenrolledElectiveModules(courseName, profileId) {
+
+    this.studentSevice.getUnenrolledElectiveModules(courseName, profileId).subscribe(
+      response => {
+        console.log(response);
+      })
   }
 
   unenrollCompulsoryModule(moduleId) {
@@ -34,6 +43,8 @@ export class SemesterComponent implements OnInit {
         console.log(response);
       })
   }
+
+
 
   enrollCompulsoryModule(moduleId) {
     const thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);

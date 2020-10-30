@@ -20,6 +20,13 @@ export class StudentService {
     return this.http.get<Student>(`http://localhost:8081/student`, { params: params });
   }
 
+  getUnenrolledElectiveModules(courseName, profileId) {
+    let params = new HttpParams();
+    params = params.append('courseName', courseName);
+    params = params.append('profileId', profileId);
+    return this.http.get<Array<Module>>(`http://localhost:8081/unenrolled-elective-modules`, { params: params });
+  }
+
   // updateStudentSemester(profileId) {
   //   let params = new HttpParams();
   //   params = params.append('profileId', profileId);

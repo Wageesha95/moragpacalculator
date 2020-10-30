@@ -2,6 +2,7 @@ package com.myapps.moragpacalculatorserver.servicesIMPL;
 
 import com.myapps.moragpacalculatorserver.dataModels.Module;
 import com.myapps.moragpacalculatorserver.dataModels.ModuleDefinition;
+import com.myapps.moragpacalculatorserver.dataModels.Semester;
 import com.myapps.moragpacalculatorserver.dataModels.StudentCategory;
 import com.myapps.moragpacalculatorserver.repositories.*;
 import com.myapps.moragpacalculatorserver.services.ModuleDefinitionService;
@@ -40,6 +41,9 @@ public class ModuleServiceIMPL implements ModuleService {
 
     @Autowired
     private UserProfileRepository userProfileRepository;
+
+    @Autowired
+    private SemesterRepository semesterRepository;
 
     public ArrayList<Module> enrollForDefaultModules(String userId, StudentCategory studentCategory,ArrayList<String> moduleCodesArrayList) {
 
@@ -102,6 +106,8 @@ public class ModuleServiceIMPL implements ModuleService {
         }
     }
 
+
+
     @Override
     public ResponseEntity<ArrayList<Module>> getUnenrolledElectiveModuleList(String courseName, String profileId) {
         try {
@@ -135,48 +141,20 @@ public class ModuleServiceIMPL implements ModuleService {
         }
     }
 
+    @Override
+    public  ResponseEntity<HttpStatus> deleteModule(String moduleId,String semesterId) {
+        try {
+                Semester newSemester = semesterRepository.findById(semesterId).get();
+                newSemester.getSemesterModule().remove(moduleRepository.findById(moduleId));
+                semesterService.updateSemester(newSemester);
+                moduleRepository.delete(moduleRepository.findById(moduleId).get());
+                //--Don't change the order of above two steps--
 
-//    public ResponseEntity<List<Module>> enrollForDefaultModules(String userId, StudentCategory studentCategory) {
-//
-//        try {
-//            ArrayList<Semester> allSemestersArrayList = new ArrayList<>();
-//
-//
-//            ArrayList<Module> allModulesArrayList = new ArrayList();
-//            ArrayList<SemesterDefinition> semesterDefinitionArrayList = new ArrayList<>();
-//
-//            CourseDefinition courseDefinition = courseDefinitionRepository.findCourseDefinitionByCourseName(studentCategory.getCourse());
-//
-//            courseDefinition.getCourseContentDefinition().forEach(semesterDefinitionArrayList::add);
-//            for (SemesterDefinition semesterDefinition : semesterDefinitionArrayList) {
-//                ArrayList<Module> semesterModuleArrayList = new ArrayList();
-//                ArrayList<String> moduleCodesArrayList = new ArrayList<>();
-//                semesterDefinition.getModuleCodes().forEach(moduleCodesArrayList::add);
-//                for (String moduleCode : moduleCodesArrayList) {
-//                    ModuleDefinition moduleDefinition = moduleDefinitionRepository.findByModuleCode(moduleCode);
-//                    if(!moduleDefinition.getElective()){
-//                        Module _module = new Module();
-//                        _module.setUserId(userId);
-//                        _module.setStudentCategory(studentCategoryRepository.findStudentCategoryByFacultyAndBatchAndCourse(studentCategory.getFaculty(),studentCategory.getBatch(),studentCategory.getCourse()));
-//                        _module.setModuleCode(moduleCode);
-//                        _module.setModuleName(moduleDefinition.getModuleName());
-//                        _module.setCredit(moduleDefinition.getModuleCredits());
-//                        _module.setResult(null);
-//                        _module.setGpa(moduleDefinition.getGpa());
-//                        _module.setElective(moduleDefinition.getElective());
-//
-//                        moduleRepository.save(_module);
-//                        semesterModuleArrayList.add(_module);
-//                        allModulesArrayList.add(_module);//remove later
-//                    }
-//                }
-//                allSemestersArrayList.add((Semester)semesterService.createDefaultSemester(userId,studentCategory,semesterDefinition.getSemesterNo(), semesterModuleArrayList));
-//
-//            }
-//            return new ResponseEntity<>(allModulesArrayList, HttpStatus.OK);
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
 

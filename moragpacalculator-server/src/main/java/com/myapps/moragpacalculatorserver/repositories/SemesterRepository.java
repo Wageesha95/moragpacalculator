@@ -5,4 +5,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.http.ResponseEntity;
 
 public interface SemesterRepository extends MongoRepository<Semester,String> {
+    Semester findSemesterByUserId(String profileId);
 }

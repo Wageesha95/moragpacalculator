@@ -71,12 +71,14 @@ export class SemesterComponent implements OnInit {
   }
 
   unenrollCompulsoryModule(moduleId) {
-    const thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
-    thisModule.enrollment = false;
-    this.studentService.updateStudentSemesterModule(thisModule).subscribe(
-      response => {
-        console.log(response);
-      })
+    if (this.theSemester.semesterModule.filter((module) => module.id === moduleId && module.result == null).length = 1) {
+      const thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
+      thisModule.enrollment = false;
+      this.studentService.updateStudentSemesterModule(thisModule).subscribe(
+        response => {
+          console.log(response);
+        })
+    }
   }
 
 

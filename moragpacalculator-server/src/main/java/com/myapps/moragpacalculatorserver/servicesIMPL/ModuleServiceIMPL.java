@@ -3,9 +3,7 @@ package com.myapps.moragpacalculatorserver.servicesIMPL;
 import com.myapps.moragpacalculatorserver.dataModels.Module;
 import com.myapps.moragpacalculatorserver.dataModels.ModuleDefinition;
 import com.myapps.moragpacalculatorserver.dataModels.StudentCategory;
-import com.myapps.moragpacalculatorserver.repositories.ModuleDefinitionRepository;
-import com.myapps.moragpacalculatorserver.repositories.ModuleRepository;
-import com.myapps.moragpacalculatorserver.repositories.StudentCategoryRepository;
+import com.myapps.moragpacalculatorserver.repositories.*;
 import com.myapps.moragpacalculatorserver.services.ModuleDefinitionService;
 import com.myapps.moragpacalculatorserver.services.ModuleService;
 import com.myapps.moragpacalculatorserver.services.SemesterService;
@@ -36,6 +34,12 @@ public class ModuleServiceIMPL implements ModuleService {
 
     @Autowired
     private ModuleDefinitionService moduleDefinitionService;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private UserProfileRepository userProfileRepository;
 
     public ArrayList<Module> enrollForDefaultModules(String userId, StudentCategory studentCategory,ArrayList<String> moduleCodesArrayList) {
 
@@ -104,11 +108,24 @@ public class ModuleServiceIMPL implements ModuleService {
             ArrayList<ModuleDefinition> allElectiveModuleDefinitionArrayList=moduleDefinitionService.getElectiveModules(courseName).getBody();
             ArrayList<Module> allEnrolledElectiveModuleArrayList=moduleRepository.findAllByUserIdAndElectiveAndEnrollment(profileId,true,true);
             ArrayList<Module> allUnenrolledElectiveModuleArrayList = new ArrayList<>();
+            StudentCategory studentCategory = studentRepository.findByUserProfile(userProfileRepository.findById(profileId).get()).get().getStudentCategory();
 
             for(ModuleDefinition moduleDefinition : allElectiveModuleDefinitionArrayList){
                 for(Module module :allEnrolledElectiveModuleArrayList){
-                    if(moduleDefinition.getModuleCode().equals(module.getModuleCode())){
-                        allUnenrolledElectiveModuleArrayList.add(module);
+                    if(!(moduleDefinition.getModuleCode().equals(module.getModuleCode()))){
+
+                        Module _module = new Module();
+                        _module.setUserId(profileId);
+                        _module.setStudentCategory(studentCategory);
+                        _module.setModuleCode(moduleDefinition.getModuleCode());
+                        _module.setModuleName(moduleDefinition.getModuleName());
+                        _module.setCredit(moduleDefinition.getModuleCredits());
+                        _module.setResult(null);
+                        _module.setGpa(moduleDefinition.getGpa());
+                        _module.setElective(moduleDefinition.getElective());
+                        _module.setEnrollment(false);
+
+                        allUnenrolledElectiveModuleArrayList.add(_module);
                     }
                 }
             }

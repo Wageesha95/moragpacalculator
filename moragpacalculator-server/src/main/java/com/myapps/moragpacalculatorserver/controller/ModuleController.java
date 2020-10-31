@@ -5,10 +5,12 @@ import com.myapps.moragpacalculatorserver.dataModels.ModuleDefinition;
 import com.myapps.moragpacalculatorserver.services.ModuleDefinitionService;
 import com.myapps.moragpacalculatorserver.services.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -36,6 +38,16 @@ public class ModuleController {
     @PutMapping("/module")
     public ResponseEntity<Module> updateModule(@RequestBody Module newModuleData){
         return moduleService.updateModule(newModuleData);
+    }
+
+    @DeleteMapping("/module")
+    public ResponseEntity<HttpStatus> deleteModule(@RequestParam (name="moduleId") String moduleId, @RequestParam(name="semesterId") String semesterId){
+        return moduleService.deleteModule(moduleId,semesterId);
+    }
+
+    @GetMapping("/unenrolled-elective-modules")
+    public ResponseEntity<ArrayList<Module>> getUnenenrolledElectiveModules(@RequestParam(name = "courseName") String courseName, @RequestParam(name="profileId") String profileId){
+        return moduleService.getUnenrolledElectiveModuleList(courseName,profileId);
     }
 
 

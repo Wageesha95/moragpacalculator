@@ -2,5 +2,7 @@
     <button (click)=getStudent(profileId)> get Student </button>
 </ul>
 
-<app-semester *ngFor="let semester of theStudent.course.courseContent | keyvalue" [semester_value]="semester.value">
+<app-semester *ngFor="let semester of theStudent.course.courseContent | keyvalue" [semester_value]="semester.value"
+    (cummulativeGPAEvent)="reciveCummulativeGPAEvent($event)"
+    (getCummulativeValueGPAEvent)="sendCummulativeGPAValue($event.semesterNo,$event.getCummulativeGPA)">
 </app-semester>

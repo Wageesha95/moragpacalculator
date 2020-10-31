@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Semester } from 'src/app/data-models/Semester';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Module } from 'src/app/data-models/Module';
@@ -13,7 +13,11 @@ export class SemesterComponent implements OnInit {
 
   @Input('semester_value') theSemester: Semester;
   unenroledElectiveModuleArray: Module[];
+  @Output() cummulativeGPAEvent = new EventEmitter<Array<Number>>();
+  @Output() getCummulativeValueGPAEvent = new EventEmitter<{ semesterNo: number, getCummulativeGPA: Function }>();
 
+  // cummulativeTC: number[] = [0, 0, 0, 0, 0, 0, 0, 0];
+  // cummulativeTR: number[] = [0, 0, 0, 0, 0, 0, 0, 0];
 
   constructor(
     private modalService: NgbModal,
@@ -30,15 +34,51 @@ export class SemesterComponent implements OnInit {
     return totalCredits;
   }
 
+  public cummulativeGPA(semesterNo: number) {
+
+    this.getCummulativeValueGPAEvent.emit({
+      semesterNo: semesterNo,
+      getCummulativeGPA: (result) => {
+        this.theSemester.cumulativeGPA = result;
+      }
+    });
+  }
+  getCummulativeGPA(semester: Semester) {
+    let TR: number = 0;
+    let TC: number = 0;
+    semester.semesterModule.filter((module) => module.enrollment == true && module.result != null).forEach((module) => { TR = TR + (module.credit * module.result), TC = TC + module.credit })
+
+    var cummulativeGPAChild: number[] = [0, 0, 0];
+    cummulativeGPAChild[0] = +semester.semesterNo;
+    cummulativeGPAChild[1] = TC;
+    cummulativeGPAChild[2] = TR;
+    this.cummulativeGPAEvent.emit(cummulativeGPAChild);
+  }
+
   semesterGPA(semester: Semester) {
     let TR: number = 0;
     let TC: number = 0;
     semester.semesterModule.filter((module) => module.enrollment == true && module.result != null).forEach((module) => { TR = TR + (module.credit * module.result), TC = TC + module.credit })
-    return TR / TC;
 
+    //Do below this when editsemester :change this method name;keepabove method as same
+    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // semesterGPA(semester: Semester) {
+    //   let TR: number = 0;
+    //   let TC: number = 0;
+    //   semester.semesterModule.filter((module) => module.enrollment == true && module.result != null).forEach((module) => { TR = TR + (module.credit * module.result), TC = TC + module.credit })
+
+    // var cummulativeGPAChild: number[] = [0, 0, 0];
+    // cummulativeGPAChild[0] = +semester.semesterNo;
+    // cummulativeGPAChild[1] = TC;
+    // cummulativeGPAChild[2] = TR;
+    // this.cummulativeGPAEvent.emit(cummulativeGPAChild);
+    this.theSemester.semesterGPA = TR / TC;
   }
-
-
+  fixSemester(semester: Semester) {
+    this.semesterGPA(semester)
+    this.getCummulativeGPA(semester)
+    this.cummulativeGPA(+semester.semesterNo)
+  }
 
   openXl(content) {
     this.modalService.open(content, { size: 'xl' });
@@ -49,7 +89,6 @@ export class SemesterComponent implements OnInit {
     this.studentService.getUnenrolledElectiveModules(courseName, profileId).subscribe(
       response => {
         this.unenroledElectiveModuleArray = response;
-        console.log(this.unenroledElectiveModuleArray);
       })
   }
 
@@ -63,11 +102,8 @@ export class SemesterComponent implements OnInit {
     this.theSemester.semesterModule = updatedSemesterModuleArray;
     this.studentService.removeEnrolledElectiveModuleFromSemester(moduleId, semesterId).subscribe(
       response => {
-        console.log(response);
       }
     );
-    console.log(this.unenroledElectiveModuleArray)
-    console.log(this.theSemester.semesterModule)
   }
 
   unenrollCompulsoryModule(moduleId) {
@@ -76,7 +112,7 @@ export class SemesterComponent implements OnInit {
       thisModule.enrollment = false;
       this.studentService.updateStudentSemesterModule(thisModule).subscribe(
         response => {
-          console.log(response);
+
         })
     }
   }
@@ -88,7 +124,7 @@ export class SemesterComponent implements OnInit {
     thisModule.enrollment = true;
     this.studentService.updateStudentSemesterModule(thisModule).subscribe(
       response => {
-        console.log(response);
+
       })
   }
 }

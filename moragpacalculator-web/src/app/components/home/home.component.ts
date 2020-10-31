@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit {
     const childCummulativeTC: number = cummulativeGPAParent[1];
     const childCummulativeTR: number = cummulativeGPAParent[2];
 
-
     console.log(childSemesterNo)
 
     let count = 0;
@@ -96,105 +95,6 @@ export class HomeComponent implements OnInit {
         }
       }
     }
-
-    // switch (childSemesterNo) {
-    //   case 1: {
-    //     this.cummulativeTC[0] = childCummulativeTC;
-    //     this.cummulativeTR[0] = childCummulativeTR;
-    //     break;
-    //   }
-    //   case 2: {
-    //     for (let i = 0; i < childSemesterNo; i++) {
-    //       console.log(this.cummulativeTC[childSemesterNo - 1] + " + " + this.cummulativeTC[i])
-    //       this.cummulativeTC[childSemesterNo - 1] += this.cummulativeTC[i];
-    //       this.cummulativeTR[childSemesterNo - 1] += this.cummulativeTR[i];
-    //     }
-    //     console.log(this.cummulativeTC[childSemesterNo - 1] + " + " + childCummulativeTC)
-    //     this.cummulativeTC[childSemesterNo - 1] += childCummulativeTC;
-    //     this.cummulativeTR[childSemesterNo - 1] += childCummulativeTR;
-    //     break;
-    //   }
-    //   case 3: {
-    //     for (let i = 0; i < childSemesterNo; i++) {
-
-    //       this.cummulativeTC[childSemesterNo - 1] += this.cummulativeTC[i];
-    //       this.cummulativeTR[childSemesterNo - 1] += this.cummulativeTR[i];
-    //     }
-
-    //     this.cummulativeTC[childSemesterNo - 1] += childCummulativeTC;
-    //     this.cummulativeTR[childSemesterNo - 1] += childCummulativeTR;
-    //     break;
-    //   }
-    //   case 4: {
-    //     for (let i = 0; i < childSemesterNo; i++) {
-
-    //       this.cummulativeTC[childSemesterNo - 1] += this.cummulativeTC[i];
-    //       this.cummulativeTR[childSemesterNo - 1] += this.cummulativeTR[i];
-    //     }
-    //     this.cummulativeTC[childSemesterNo - 1] += childCummulativeTC;
-    //     this.cummulativeTR[childSemesterNo - 1] += childCummulativeTR;
-    //     break;
-    //   }
-    //   case 5: {
-    //     for (let i = 0; i < childSemesterNo; i++) {
-
-    //       this.cummulativeTC[childSemesterNo - 1] += this.cummulativeTC[i];
-    //       this.cummulativeTR[childSemesterNo - 1] += this.cummulativeTR[i];
-    //     }
-    //     this.cummulativeTC[childSemesterNo - 1] += childCummulativeTC;
-    //     this.cummulativeTR[childSemesterNo - 1] += childCummulativeTR;
-    //     break;
-    //   }
-    //   case 6: {
-    //     for (let i = 0; i < childSemesterNo; i++) {
-
-    //       this.cummulativeTC[childSemesterNo - 1] += this.cummulativeTC[i];
-    //       this.cummulativeTR[childSemesterNo - 1] += this.cummulativeTR[i];
-    //     }
-    //     this.cummulativeTC[childSemesterNo - 1] += childCummulativeTC;
-    //     this.cummulativeTR[childSemesterNo - 1] += childCummulativeTR;
-    //     break;
-    //   }
-    //   case 7: {
-    //     for (let i = 0; i < childSemesterNo; i++) {
-
-    //       this.cummulativeTC[childSemesterNo - 1] += this.cummulativeTC[i];
-    //       this.cummulativeTR[childSemesterNo - 1] += this.cummulativeTR[i];
-    //     }
-    //     this.cummulativeTC[childSemesterNo - 1] += childCummulativeTC;
-    //     this.cummulativeTR[childSemesterNo - 1] += childCummulativeTR;
-    //     break;
-    //   }
-    //   case 8: {
-    //     for (let i = 0; i < childSemesterNo; i++) {
-
-    //       this.cummulativeTC[childSemesterNo - 1] += this.cummulativeTC[i];
-    //       this.cummulativeTR[childSemesterNo - 1] += this.cummulativeTR[i];
-    //     }
-    //     this.cummulativeTC[childSemesterNo - 1] += childCummulativeTC;
-    //     this.cummulativeTR[childSemesterNo - 1] += childCummulativeTR;
-    //     break;
-    //   }
-    // }
-
-
-    // for (let i = 0; i < +childSemesterNo; i++) {
-    //   if (childSemesterNo == 1) {
-    //     if (!(childCummulativeTC == null)) {
-    //       this.cummulativeTC.splice(i, 1, childCummulativeTC)
-    //     }
-    //     if (!(childCummulativeTR == null)) {
-    //       this.cummulativeTR.splice(i, 1, childCummulativeTR)
-    //     }
-    //   } else {
-    //     if (!(childCummulativeTC == null)) {
-    //       this.cummulativeTC[i] = this.cummulativeTC[i - 1] + childCummulativeTC;
-    //     }
-    //     if (!(childCummulativeTR == null)) {
-    //       this.cummulativeTR[i] = this.cummulativeTR[i - 1] + childCummulativeTR;
-    //     }
-    //   }
-    // }
   }
 
   sendCummulativeGPAValue(semesterNo, getCummulativeGPA) {
@@ -203,7 +103,7 @@ export class HomeComponent implements OnInit {
     console.log(semesterNo);
     let count = 0;
     for (let i = 0; i < semesterNo; i++) {
-      if (this.cummulativeTR[i] == -1) {
+      if (this.cummulativeTR[i] == -1 || this.cummulativeTR[i] == NaN) {
         count = -2;
         break;
       }
@@ -211,7 +111,7 @@ export class HomeComponent implements OnInit {
     if (count == -2) {
       getCummulativeGPA(0);
     } else {
-      if (semesterNo == 6) {
+      if (semesterNo == 6) {//--Should be changed with adding property to identify training semester
         getCummulativeGPA(0);
       } else {
         console.log(this.cummulativeTR[semesterNo - 1] + " " + this.cummulativeTC[semesterNo - 1])

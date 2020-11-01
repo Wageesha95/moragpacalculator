@@ -33,9 +33,10 @@ public class SemesterServiceIMPL implements SemesterService {
             ArrayList<Semester> allSemestersArrayList = new ArrayList<>();
             for (SemesterDefinition semesterDefinition : semesterDefinitionArrayList) {
                 ArrayList<String> moduleCodesArrayList = new ArrayList<>();
+                Boolean trainingSemester=semesterDefinition.getTraining();
                 semesterDefinition.getModuleCodes().forEach(moduleCodesArrayList::add);
                 ArrayList<Module> semesterModuleArrayList = moduleService.enrollForDefaultModules(userId, studentCategory, moduleCodesArrayList);
-                Semester semester = createDefaultSemester(userId, studentCategory, semesterDefinition.getSemesterNo(), semesterModuleArrayList);
+                Semester semester = createDefaultSemester(userId, studentCategory, semesterDefinition.getSemesterNo(), semesterModuleArrayList,trainingSemester);
                 allSemestersArrayList.add(semester);
             }
             return allSemestersArrayList;
@@ -44,7 +45,7 @@ public class SemesterServiceIMPL implements SemesterService {
         }
     }
 
-    public Semester createDefaultSemester(String userId, StudentCategory studentCategory, String semesterNo, ArrayList<Module> semesterModuleArrayList) {
+    public Semester createDefaultSemester(String userId, StudentCategory studentCategory, String semesterNo, ArrayList<Module> semesterModuleArrayList,Boolean trainingSemester) {
         try {
             Semester semester = new Semester();
             semester.setUserId(userId);
@@ -53,6 +54,7 @@ public class SemesterServiceIMPL implements SemesterService {
             semester.setSemesterModule(semesterModuleArrayList);
             semester.setSemesterGPA(null);
             semester.setCumulativeGPA(null);
+            semester.setTraining(trainingSemester);
 
             semesterRepository.save(semester);
             return semester;

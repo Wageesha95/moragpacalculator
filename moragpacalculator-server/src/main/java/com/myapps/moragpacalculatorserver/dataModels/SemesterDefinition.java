@@ -9,9 +9,12 @@ public class SemesterDefinition {
     private Integer maxNoOfModules;
     private Integer minNoOfModules;
     private ArrayList<String> moduleCodes;
+    private Boolean training;
 
     public SemesterDefinition() {
     }
+
+
 
     public String getSemesterNo() {
         return semesterNo;
@@ -51,5 +54,13 @@ public class SemesterDefinition {
 
     public void setModuleCodes(ArrayList<String> moduleCodes) {
         this.moduleCodes = moduleCodes;
+    }
+
+    public Boolean getTraining() {
+        return training;
+    }
+
+    public void setTraining(Boolean training) {
+        this.training = training;
     }
 }

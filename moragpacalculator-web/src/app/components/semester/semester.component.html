@@ -14,7 +14,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let module of theSemester.semesterModule; let i = index">
+            <tr *ngFor="let module of theSemester.semesterModule; index as i">
                 <td>{{i+1}}</td>
                 <td>{{module.moduleCode}}</td>
                 <td>{{module.moduleName | uppercase}}</td>

@@ -10,7 +10,8 @@ import { Student } from "../../data-models/Student";
 })
 export class HomeComponent implements OnInit {
 
-  profileId = "5f985cfa91ea123cba02beba";
+  profileId = "5f7d2f5406d4835ca1b9c955";
+  //"5f985cfa91ea123cba02beba";
   theStudent: Student;
 
   cummulativeTC: number[] = [-1, -1, -1, -1, -1, -1, -1, -1];

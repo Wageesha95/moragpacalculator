@@ -11,6 +11,7 @@
                 <th>Credit</th>
                 <th>GPA</th>
                 <th>Module Type</th>
+                <th>Enrollment</th>
             </tr>
         </thead>
         <tbody>
@@ -37,26 +38,16 @@
                 <ng-template #nonGPA>
                     <td>Non GPA</td>
                 </ng-template>
+
                 <td *ngIf="(module.elective); else compulsory">Elective</td>
                 <ng-template #compulsory>
                     <td>Compulsory</td>
                 </ng-template>
-                <td *ngIf="!module.elective && !module.enrollment; then enroll   "></td>
-                <td *ngIf="!module.elective && module.enrollment; then unenroll   "></td>
-                <td *ngIf="module.elective && module.enrollment; then remove   "></td>
-                <ng-template #enroll>
-                    <td> <button (click)=enrollCompulsoryModule(module.id) class="btn btn-success">Enroll</button></td>
-                </ng-template>
-                <ng-template #unenroll>
-                    <td> <button (click)=unenrollCompulsoryModule(module.id) class="btn btn-success">Unenroll</button>
-                    </td>
-                </ng-template>
-                <ng-template #remove>
-                    <td> <button (click)=removeEnrolledElectiveModuleFromSemester(module.id,theSemester.id)
-                            class="btn btn-warning">
-                            Remove</button></td>
-                </ng-template>
 
+                <td *ngIf="(module.enrollment); else unenrolled">Enrolled</td>
+                <ng-template #unenrolled>
+                    <td>Unenrolled</td>
+                </ng-template>
 
             </tr>
             <tr></tr>
@@ -95,7 +86,8 @@
                         <th>Grade</th>
                         <th>Credit</th>
                         <th>GPA</th>
-                        <th>Module Type</th>
+                        <th>Elective</th>
+                        <th>Enrollment</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -107,8 +99,23 @@
                         <td>{{module.gpa}}</td>
                         <td>{{module.elective}}</td>
                         <td>{{module.enrollment}}</td>
-                        <td> <button (click)=updateTodoId(todox.id) class="btn btn-success">Enrollment</button></td>
-                        <td> <button (click)=deleteTodo(todox.id) class="btn btn-warning"> Delete</button></td>
+                        <td *ngIf="!module.elective && !module.enrollment; then enroll   "></td>
+                        <td *ngIf="!module.elective && module.enrollment; then unenroll   "></td>
+                        <td *ngIf="module.elective && module.enrollment; then remove   "></td>
+                        <ng-template #enroll>
+                            <td> <button (click)=enrollCompulsoryModule(module.id)
+                                    class="btn btn-success">Enroll</button></td>
+                        </ng-template>
+                        <ng-template #unenroll>
+                            <td> <button (click)=unenrollCompulsoryModule(module.id)
+                                    class="btn btn-success">Unenroll</button>
+                            </td>
+                        </ng-template>
+                        <ng-template #remove>
+                            <td> <button (click)=removeEnrolledElectiveModuleFromSemester(module.id,theSemester.id)
+                                    class="btn btn-warning">
+                                    Remove</button></td>
+                        </ng-template>
                     </tr>
                 </tbody>
             </table>

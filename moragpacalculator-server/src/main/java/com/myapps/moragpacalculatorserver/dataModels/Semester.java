@@ -21,10 +21,12 @@ public class Semester {
     private Float semesterGPA;
     private Float cumulativeGPA;
 
+    private Boolean training;
+
     public Semester() {
     }
 
-    public Semester(String id, String userId, StudentCategory studentCategory, String semesterNo, ArrayList<Module> semesterModule, Float semesterGPA, Float cumulativeGPA) {
+    public Semester(String id, String userId, StudentCategory studentCategory, String semesterNo, ArrayList<Module> semesterModule, Float semesterGPA, Float cumulativeGPA, Boolean training) {
         this.id = id;
         this.userId = userId;
         this.studentCategory = studentCategory;
@@ -32,6 +34,7 @@ public class Semester {
         this.semesterModule = semesterModule;
         this.semesterGPA = semesterGPA;
         this.cumulativeGPA = cumulativeGPA;
+        this.training=training;
     }
 
     public String getId() {
@@ -90,4 +93,11 @@ public class Semester {
         this.cumulativeGPA = cumulativeGPA;
     }
 
+    public Boolean getTraining() {
+        return training;
+    }
+
+    public void setTraining(Boolean training) {
+        this.training = training;
+    }
 }

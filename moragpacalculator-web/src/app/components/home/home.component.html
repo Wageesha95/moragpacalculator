@@ -2,7 +2,12 @@
     <button (click)=getStudent(profileId)> get Student </button>
 </ul>
 
+
 <app-semester *ngFor="let semester of theStudent.course.courseContent | keyvalue" [semester_value]="semester.value"
+    [unenroledElectiveModuleArrayParent]="unenroledElectiveModuleArrayChild"
     (cummulativeGPAEvent)="reciveCummulativeGPAEvent($event)"
-    (getCummulativeValueGPAEvent)="sendCummulativeGPAValue($event.semesterNo,$event.getCummulativeGPA)">
+    (getCummulativeValueGPAEvent)="sendCummulativeGPAValue($event.semesterNo,$event.getCummulativeGPA)"
+    (addElectiveModuleEvent)="addModuleToUnenrolledElectiveModulesArray($event)"
+    (removeElectiveModuleEvent)="removeModuleFromUnenrolledElectiveModulesArray($event)"
+    >
 </app-semester>

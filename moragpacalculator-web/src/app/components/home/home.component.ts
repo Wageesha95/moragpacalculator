@@ -2,6 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { StudentService } from "../../services/data/student.service";
 import { Student } from "../../data-models/Student";
+import { Module } from 'src/app/data-models/Module';
+import { DataService } from 'src/app/services/data.service';
+
 
 @Component({
   selector: 'app-home',
@@ -10,23 +13,37 @@ import { Student } from "../../data-models/Student";
 })
 export class HomeComponent implements OnInit {
 
-  profileId = "5f985cfa91ea123cba02beba";
+  profileId = "5f7d2f5406d4835ca1b9c955";
+  //"5f985cfa91ea123cba02beba";
   theStudent: Student;
 
   cummulativeTC: number[] = [-1, -1, -1, -1, -1, -1, -1, -1];
   cummulativeTR: number[] = [-1, -1, -1, -1, -1, -1, -1, -1];
+  unenroledElectiveModuleArrayParent: Module[];
 
   constructor(private router: Router,
-    private StudentService: StudentService) { }
+    private studentService: StudentService,
+    private data: DataService) { }
 
   ngOnInit(): void {
+    this.data.latestUnenrolledEelectiveModuleArray.subscribe(updatedArray => this.unenroledElectiveModuleArrayParent = updatedArray);
   }
 
   getStudent(profileId: String) {
-    this.StudentService.getStudentByProfileId(profileId).subscribe(
+    this.studentService.getStudentByProfileId(profileId).subscribe(
       response => {
         this.theStudent = response;
         console.log(response);
+        //need to modifi with after execution
+        this.getUnenrolledElectiveModules(this.theStudent.studentCategory.course, this.theStudent.userProfile.id);
+        console.log(this.unenroledElectiveModuleArrayParent)
+      })
+  }
+
+  getUnenrolledElectiveModules(courseName, profileId) {
+    this.studentService.getUnenrolledElectiveModules(courseName, profileId).subscribe(
+      response => {
+        this.data.updateUnenrolledEelectiveModuleArray(response);
       })
   }
 

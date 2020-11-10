@@ -11,10 +11,11 @@
                 <th>Credit</th>
                 <th>GPA</th>
                 <th>Module Type</th>
+                <th>Enrollment</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let module of theSemester.semesterModule; let i = index">
+            <tr *ngFor="let module of theSemester.semesterModule; index as i">
                 <td>{{i+1}}</td>
                 <td>{{module.moduleCode}}</td>
                 <td>{{module.moduleName | uppercase}}</td>
@@ -37,26 +38,16 @@
                 <ng-template #nonGPA>
                     <td>Non GPA</td>
                 </ng-template>
+
                 <td *ngIf="(module.elective); else compulsory">Elective</td>
                 <ng-template #compulsory>
                     <td>Compulsory</td>
                 </ng-template>
-                <td *ngIf="!module.elective && !module.enrollment; then enroll   "></td>
-                <td *ngIf="!module.elective && module.enrollment; then unenroll   "></td>
-                <td *ngIf="module.elective && module.enrollment; then remove   "></td>
-                <ng-template #enroll>
-                    <td> <button (click)=enrollCompulsoryModule(module.id) class="btn btn-success">Enroll</button></td>
-                </ng-template>
-                <ng-template #unenroll>
-                    <td> <button (click)=unenrollCompulsoryModule(module.id) class="btn btn-success">Unenroll</button>
-                    </td>
-                </ng-template>
-                <ng-template #remove>
-                    <td> <button (click)=removeEnrolledElectiveModuleFromSemester(module.id,theSemester.id)
-                            class="btn btn-warning">
-                            Remove</button></td>
-                </ng-template>
 
+                <td *ngIf="(module.enrollment); else unenrolled">Enrolled</td>
+                <ng-template #unenrolled>
+                    <td>Unenrolled</td>
+                </ng-template>
 
             </tr>
             <tr></tr>
@@ -77,7 +68,7 @@
 
 <ng-template #content let-modal>
     <div class="modal-header">
-        <h4 class="modal-title">Modal title</h4>
+        <h4 class="modal-title">Edit Semester</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -89,13 +80,13 @@
 
                 <thead>
                     <tr>
-                        <th>No</th>
                         <th>Module Code</th>
                         <th>Module Name</th>
                         <th>Grade</th>
                         <th>Credit</th>
                         <th>GPA</th>
-                        <th>Module Type</th>
+                        <th>Elective</th>
+                        <th>Enrollment</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -104,11 +95,69 @@
                         <td>{{module.moduleName | uppercase}}</td>
                         <td>{{module.result}}</td>
                         <td>{{module.credit}}</td>
-                        <td>{{module.gpa}}</td>
-                        <td>{{module.elective}}</td>
-                        <td>{{module.enrollment}}</td>
-                        <td> <button (click)=updateTodoId(todox.id) class="btn btn-success">Enrollment</button></td>
-                        <td> <button (click)=deleteTodo(todox.id) class="btn btn-warning"> Delete</button></td>
+
+                        <td *ngIf="(module.gpa); else nonGPA">GPA</td>
+                        <ng-template #nonGPA>
+                            <td>Non GPA</td>
+                        </ng-template>
+
+                        <td *ngIf="(module.elective); else compulsory">Elective</td>
+                        <ng-template #compulsory>
+                            <td>Compulsory</td>
+                        </ng-template>
+
+                        <td *ngIf="(module.enrollment); else unenrolled">Enrolled</td>
+                        <ng-template #unenrolled>
+                            <td>Unenrolled</td>
+                        </ng-template>
+
+
+                        <td *ngIf="!module.elective && !module.enrollment; then enroll   "></td>
+                        <td *ngIf="!module.elective && module.enrollment; then unenroll   "></td>
+                        <td *ngIf="module.elective && module.enrollment; then remove   "></td>
+                        <ng-template #enroll>
+                            <td> <button (click)=enrollCompulsoryModule(module.id)
+                                    class="btn btn-success">Enroll</button></td>
+                        </ng-template>
+                        <ng-template #unenroll>
+                            <td> <button (click)=unenrollCompulsoryModule(module.id)
+                                    class="btn btn-success">Unenroll</button>
+                            </td>
+                        </ng-template>
+                        <ng-template #remove>
+                            <td> <button (click)=removeEnrolledElectiveModuleFromSemester(module.moduleCode)
+                                    class="btn btn-warning">
+                                    Remove</button></td>
+                        </ng-template>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Module Code</th>
+                        <th>Module Name</th>
+                        <th>Credit</th>
+                        <th>GPA</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let module of unenroledElectiveModuleArrayChild">
+                        <td>{{module.moduleCode}}</td>
+                        <td>{{module.moduleName | uppercase}}</td>
+                        <td>{{module.credit}}</td>
+
+                        <td *ngIf="(module.gpa); else nonGPA">GPA</td>
+                        <ng-template #nonGPA>
+                            <td>Non GPA</td>
+                        </ng-template>
+                        <td> <button (click)=addElectiveModule(module.moduleCode) class="btn btn-success">Add
+                                Module</button>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -120,13 +169,3 @@
         <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
     </div>
 </ng-template>
-
-
-<!-- <td class="dropdown">
-    <button class="btn btn-default dropdown-togle icone-grid" data-toggle="dropdown">
-        <i class="fa fa-gears"></i>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-        <li>
-            <a class="dropdown-item" href="#">Atualizar</a>
-        </li> -->

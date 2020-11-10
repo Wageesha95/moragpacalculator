@@ -3,6 +3,7 @@ import { Semester } from 'src/app/data-models/Semester';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Module } from 'src/app/data-models/Module';
 import { StudentService } from 'src/app/services/data/student.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-semester',
@@ -16,15 +17,17 @@ export class SemesterComponent implements OnInit {
   @Output() getCummulativeValueGPAEvent = new EventEmitter<{ semesterNo: number, getCummulativeGPA: Function }>();
   @Output() addElectiveModuleEvent = new EventEmitter<{ moduleId: String }>();
   @Output() removeElectiveModuleEvent = new EventEmitter<any>();
-  @Input() unenroledElectiveModuleArrayChild: Module[];
+  unenroledElectiveModuleArrayChild: Module[];
 
 
   constructor(
     private modalService: NgbModal,
-    private studentService: StudentService) { }
+    private studentService: StudentService,
+    private data: DataService) { }
 
 
   ngOnInit(): void {
+    this.data.latestUnenrolledEelectiveModuleArray.subscribe(updatedArray => this.unenroledElectiveModuleArrayChild = updatedArray);
   }
 
   calculateTotalSemesterCredits(semester: Semester) {
@@ -69,50 +72,47 @@ export class SemesterComponent implements OnInit {
 
   openXl(content) {
     this.modalService.open(content, { size: 'xl' });
-    console.log(this.unenroledElectiveModuleArrayChild == null)
   }
 
 
 
-  removeEnrolledElectiveModuleFromSemester(moduleId: String, semesterId: String) {
-    const updatedSemesterModuleArray = this.theSemester.semesterModule.filter((module) => module.id !== moduleId);
-    var module = this.theSemester.semesterModule.filter((module) => module.id === moduleId);
-    module[0].id = null
-    module[0].enrollment = false
-    module[0].result = null;
 
-    this.removeElectiveModuleEvent.emit(module[0]);
-    this.theSemester.semesterModule = updatedSemesterModuleArray;
-  }
 
   unenrollCompulsoryModule(moduleId) {
-    if (this.theSemester.semesterModule.filter((module) => module.id === moduleId && module.result == null).length = 1) {
-      const thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
-      thisModule.enrollment = false;
-      this.studentService.updateStudentSemesterModule(thisModule).subscribe(
-        response => {
-
-        })
-    }
+    //  if (this.theSemester.semesterModule.filter((module) => module.id === moduleId && module.result == null).length = 1) {
+    const thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
+    thisModule.enrollment = false;
+    // } else {
+    //make alert
+    //  }
   }
 
   enrollCompulsoryModule(moduleId) {
     const thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
     thisModule.enrollment = true;
-    this.studentService.updateStudentSemesterModule(thisModule).subscribe(
-      response => {
-
-      })
   }
 
-  addElectiveModule(moduleId) {
-    var newModule = this.unenroledElectiveModuleArrayChild.find((module) => module.id === moduleId);
+  addElectiveModule(moduleCode: String) {
+    var newModule = this.unenroledElectiveModuleArrayChild.find((module) => module.moduleCode === moduleCode);
+    console.log(newModule)
     newModule.enrollment = true;
     this.theSemester.semesterModule.push(newModule);
-    this.addElectiveModuleEvent.emit(moduleId);
-
+    this.unenroledElectiveModuleArrayChild.splice(this.unenroledElectiveModuleArrayChild.findIndex((module) => module.moduleCode === moduleCode), 1);
+    const updatedArray = this.unenroledElectiveModuleArrayChild;
+    this.data.updateUnenrolledEelectiveModuleArray(updatedArray);
   }
 
+  removeEnrolledElectiveModuleFromSemester(moduleCode: String) {
+    const updatedSemesterModuleArray = this.theSemester.semesterModule.filter((module) => module.moduleCode !== moduleCode);
+    var module = this.theSemester.semesterModule.filter((module) => module.moduleCode === moduleCode);
+    module[0].id = null
+    module[0].enrollment = false
+    module[0].result = null;
+    this.unenroledElectiveModuleArrayChild.push(module[0]);
+    const updatedArray: Module[] = this.unenroledElectiveModuleArrayChild;
+    this.data.updateUnenrolledEelectiveModuleArray(updatedArray);
+    this.theSemester.semesterModule = updatedSemesterModuleArray;
+  }
 }
 
 

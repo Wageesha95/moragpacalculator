@@ -125,7 +125,7 @@
                             </td>
                         </ng-template>
                         <ng-template #remove>
-                            <td> <button (click)=removeEnrolledElectiveModuleFromSemester(module.id,theSemester.id)
+                            <td> <button (click)=removeEnrolledElectiveModuleFromSemester(module.moduleCode)
                                     class="btn btn-warning">
                                     Remove</button></td>
                         </ng-template>
@@ -155,7 +155,8 @@
                         <ng-template #nonGPA>
                             <td>Non GPA</td>
                         </ng-template>
-                        <td> <button (click)=addElectiveModule(module.id) class="btn btn-success">Add Module</button>
+                        <td> <button (click)=addElectiveModule(module.moduleCode) class="btn btn-success">Add
+                                Module</button>
                         </td>
                     </tr>
                 </tbody>
@@ -168,13 +169,3 @@
         <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
     </div>
 </ng-template>
-
-
-<!-- <td class="dropdown">
-    <button class="btn btn-default dropdown-togle icone-grid" data-toggle="dropdown">
-        <i class="fa fa-gears"></i>
-    </button>
-    <ul class="dropdown-menu" role="menu">
-        <li>
-            <a class="dropdown-item" href="#">Atualizar</a>
-        </li> -->

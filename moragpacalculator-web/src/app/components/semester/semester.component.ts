@@ -14,8 +14,9 @@ export class SemesterComponent implements OnInit {
   @Input('semester_value') theSemester: Semester;
   @Output() cummulativeGPAEvent = new EventEmitter<Array<Number>>();
   @Output() getCummulativeValueGPAEvent = new EventEmitter<{ semesterNo: number, getCummulativeGPA: Function }>();
-
-  unenroledElectiveModuleArray: Module[];
+  @Output() addElectiveModuleEvent = new EventEmitter<{ moduleId: String }>();
+  @Output() removeElectiveModuleEvent = new EventEmitter<any>();
+  @Input() unenroledElectiveModuleArrayChild: Module[];
 
 
   constructor(
@@ -24,7 +25,6 @@ export class SemesterComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getUnenrolledElectiveModules(this.theSemester.studentCategory.course, this.theSemester.userId);
   }
 
   calculateTotalSemesterCredits(semester: Semester) {
@@ -69,28 +69,20 @@ export class SemesterComponent implements OnInit {
 
   openXl(content) {
     this.modalService.open(content, { size: 'xl' });
+    console.log(this.unenroledElectiveModuleArrayChild == null)
   }
 
-  getUnenrolledElectiveModules(courseName, profileId) {
 
-    this.studentService.getUnenrolledElectiveModules(courseName, profileId).subscribe(
-      response => {
-        this.unenroledElectiveModuleArray = response;
-      })
-  }
 
   removeEnrolledElectiveModuleFromSemester(moduleId: String, semesterId: String) {
     const updatedSemesterModuleArray = this.theSemester.semesterModule.filter((module) => module.id !== moduleId);
-    const module = this.theSemester.semesterModule.filter((module) => module.id === moduleId);
+    var module = this.theSemester.semesterModule.filter((module) => module.id === moduleId);
     module[0].id = null
     module[0].enrollment = false
     module[0].result = null;
-    this.unenroledElectiveModuleArray.push(module[0])
+
+    this.removeElectiveModuleEvent.emit(module[0]);
     this.theSemester.semesterModule = updatedSemesterModuleArray;
-    this.studentService.removeEnrolledElectiveModuleFromSemester(moduleId, semesterId).subscribe(
-      response => {
-      }
-    );
   }
 
   unenrollCompulsoryModule(moduleId) {
@@ -112,4 +104,15 @@ export class SemesterComponent implements OnInit {
 
       })
   }
+
+  addElectiveModule(moduleId) {
+    var newModule = this.unenroledElectiveModuleArrayChild.find((module) => module.id === moduleId);
+    newModule.enrollment = true;
+    this.theSemester.semesterModule.push(newModule);
+    this.addElectiveModuleEvent.emit(moduleId);
+
+  }
+
 }
+
+

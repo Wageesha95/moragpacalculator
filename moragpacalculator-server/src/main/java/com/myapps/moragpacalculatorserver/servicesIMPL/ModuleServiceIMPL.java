@@ -117,21 +117,37 @@ public class ModuleServiceIMPL implements ModuleService {
             StudentCategory studentCategory = studentRepository.findByUserProfile(userProfileRepository.findById(profileId).get()).get().getStudentCategory();
 
             for(ModuleDefinition moduleDefinition : allElectiveModuleDefinitionArrayList){
-                for(Module module :allEnrolledElectiveModuleArrayList){
-                    if(!(moduleDefinition.getModuleCode().equals(module.getModuleCode()))){
+                if(allEnrolledElectiveModuleArrayList.isEmpty()){
+                    Module _module = new Module();
+                    _module.setUserId(profileId);
+                    _module.setStudentCategory(studentCategory);
+                    _module.setModuleCode(moduleDefinition.getModuleCode());
+                    _module.setModuleName(moduleDefinition.getModuleName());
+                    _module.setCredit(moduleDefinition.getModuleCredits());
+                    _module.setResult(null);
+                    _module.setGpa(moduleDefinition.getGpa());
+                    _module.setElective(moduleDefinition.getElective());
+                    _module.setEnrollment(false);
 
-                        Module _module = new Module();
-                        _module.setUserId(profileId);
-                        _module.setStudentCategory(studentCategory);
-                        _module.setModuleCode(moduleDefinition.getModuleCode());
-                        _module.setModuleName(moduleDefinition.getModuleName());
-                        _module.setCredit(moduleDefinition.getModuleCredits());
-                        _module.setResult(null);
-                        _module.setGpa(moduleDefinition.getGpa());
-                        _module.setElective(moduleDefinition.getElective());
-                        _module.setEnrollment(false);
+                    allUnenrolledElectiveModuleArrayList.add(_module);
+                }else{
+                    for(Module module :allEnrolledElectiveModuleArrayList){
 
-                        allUnenrolledElectiveModuleArrayList.add(_module);
+                        if(!(moduleDefinition.getModuleCode().equals(module.getModuleCode()))){
+
+                            Module _module = new Module();
+                            _module.setUserId(profileId);
+                            _module.setStudentCategory(studentCategory);
+                            _module.setModuleCode(moduleDefinition.getModuleCode());
+                            _module.setModuleName(moduleDefinition.getModuleName());
+                            _module.setCredit(moduleDefinition.getModuleCredits());
+                            _module.setResult(null);
+                            _module.setGpa(moduleDefinition.getGpa());
+                            _module.setElective(moduleDefinition.getElective());
+                            _module.setEnrollment(false);
+
+                            allUnenrolledElectiveModuleArrayList.add(_module);
+                        }
                     }
                 }
             }

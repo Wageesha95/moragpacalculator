@@ -12,8 +12,9 @@ public interface ModuleService {
 
 
     ArrayList<Module> enrollForDefaultModules(String userId, StudentCategory studentCategory,ArrayList<String> moduleCodesArrayList);
-    ArrayList<Module> updateSemesterModules( ArrayList<Module> semesterModulesArrayList);
+    ArrayList<Module> updateSemesterModules(ArrayList<Module> semesterModulesArrayList);
     ResponseEntity<Module> updateModule(Module newModuleData);
-    ResponseEntity<HttpStatus> deleteModule(String moduleId, String semesterId);
+   // ResponseEntity<HttpStatus> deleteUnenrolledModules(ArrayList<Module> existSemesterModules,ArrayList<Module> semesterModulesArrayList,String semesterId);
     ResponseEntity<ArrayList<Module>> getUnenrolledElectiveModuleList(String courseName,String profileId);
+    ResponseEntity<HttpStatus> deleteRemovedElectiveModule(String moduleId,String semesterId);
 }

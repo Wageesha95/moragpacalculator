@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 @Service
@@ -73,16 +74,18 @@ public class ModuleServiceIMPL implements ModuleService {
         }
     }
 
-    public ArrayList<Module> updateSemesterModules( ArrayList<Module> semesterModulesArrayList) {
+    public ArrayList<Module> updateSemesterModules(ArrayList<Module> semesterModulesArrayList) {
         ArrayList <Module> newSemesterModuleArraylist = new ArrayList<>();
-        try{
-        for(Module module: semesterModulesArrayList){
-            Module _module = module;
-            _module.setResult(module.getResult());
-            _module.setEnrollment(module.getEnrollment());
-            moduleRepository.save(_module);
-            newSemesterModuleArraylist.add(_module);
-        }
+   try{
+
+            for(Module module: semesterModulesArrayList){
+
+                Module _module = module;
+                _module.setResult(module.getResult());
+                _module.setEnrollment(module.getEnrollment());
+                moduleRepository.save(_module);
+                newSemesterModuleArraylist.add(_module);
+            }
             return newSemesterModuleArraylist;
         } catch (Exception e) {
             throw e;
@@ -95,7 +98,7 @@ public class ModuleServiceIMPL implements ModuleService {
             Optional<Module> existModule = moduleRepository.findById(newModuleData.getId());
             if (existModule.isPresent()) {
                 Module _module = existModule.get();
-
+                _module.setResult(newModuleData.getResult());
                 _module.setEnrollment(newModuleData.getEnrollment());
                 moduleRepository.save(_module);
                 return new ResponseEntity<>(_module, HttpStatus.OK);
@@ -158,19 +161,51 @@ public class ModuleServiceIMPL implements ModuleService {
     }
 
     @Override
-    public  ResponseEntity<HttpStatus> deleteModule(String moduleId,String semesterId) {
+    public ResponseEntity<HttpStatus> deleteRemovedElectiveModule(String moduleId, String semesterId) {
         try {
-                Semester newSemester = semesterRepository.findById(semesterId).get();
-                newSemester.getSemesterModule().remove(moduleRepository.findById(moduleId));
-                semesterService.updateSemester(newSemester);
-                moduleRepository.delete(moduleRepository.findById(moduleId).get());
-                //--Don't change the order of above two steps--
+            Semester newSemester = semesterRepository.findById(semesterId).get();
+            newSemester.getSemesterModule().remove(moduleRepository.findById(moduleId));
+            semesterService.updateSemester(newSemester);
+            moduleRepository.delete(moduleRepository.findById(moduleId).get());
+            //--Don't change the order of above two steps--
 
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+//    @Override
+//    public  ResponseEntity<HttpStatus> deleteUnenrolledModules(ArrayList<Module> existSemesterModules,ArrayList<Module> semesterModulesArrayList,String semesterId) {
+//            ArrayList<Module> unenrolledElectiveModules = (ArrayList<Module>) existSemesterModules.clone();
+//            try{
+//                if(!(existSemesterModules.isEmpty())){
+//                    for (Module existModule : existSemesterModules){
+//                        for (Module semesterModule : semesterModulesArrayList){
+//                            if(existModule.getModuleCode().equals(semesterModule.getModuleCode())){
+//                                unenrolledElectiveModules.remove(unenrolledElectiveModules.indexOf(existModule));
+//                            }
+//                        }
+//                        //semesterModulesArrayList.stream().filter(m-> m.getModuleCode()== existModule.getModuleCode()).collect(Collectors.toList()).forEach(unenrolledElectiveModules::add );
+//                    }
+//                }
+//                for(Module module:unenrolledElectiveModules){
+//                    Semester newSemester = semesterRepository.findById(semesterId).get();
+//                    newSemester.getSemesterModule().remove(moduleRepository.findById(module.getId()));
+//                    semesterService.updateSemester(newSemester);
+//                    moduleRepository.delete(moduleRepository.findById(module.getId()).get());
+//                    //--Don't change the order of above two steps--
+//                }
+//
+//
+//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
+
 }
 

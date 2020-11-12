@@ -42,7 +42,7 @@ public class ModuleController {
 
     @DeleteMapping("/module")
     public ResponseEntity<HttpStatus> deleteModule(@RequestParam (name="moduleId") String moduleId, @RequestParam(name="semesterId") String semesterId){
-        return moduleService.deleteModule(moduleId,semesterId);
+        return moduleService.deleteRemovedElectiveModule(moduleId,semesterId);
     }
 
     @GetMapping("/unenrolled-elective-modules")

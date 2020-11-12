@@ -119,41 +119,66 @@ public class ModuleServiceIMPL implements ModuleService {
             ArrayList<Module> allUnenrolledElectiveModuleArrayList = new ArrayList<>();
             StudentCategory studentCategory = studentRepository.findByUserProfile(userProfileRepository.findById(profileId).get()).get().getStudentCategory();
 
+            ArrayList<ModuleDefinition> tempModuleDefinitionArrayList = (ArrayList) allElectiveModuleDefinitionArrayList.clone();
             for(ModuleDefinition moduleDefinition : allElectiveModuleDefinitionArrayList){
-                if(allEnrolledElectiveModuleArrayList.isEmpty()){
-                    Module _module = new Module();
-                    _module.setUserId(profileId);
-                    _module.setStudentCategory(studentCategory);
-                    _module.setModuleCode(moduleDefinition.getModuleCode());
-                    _module.setModuleName(moduleDefinition.getModuleName());
-                    _module.setCredit(moduleDefinition.getModuleCredits());
-                    _module.setResult(null);
-                    _module.setGpa(moduleDefinition.getGpa());
-                    _module.setElective(moduleDefinition.getElective());
-                    _module.setEnrollment(false);
-
-                    allUnenrolledElectiveModuleArrayList.add(_module);
-                }else{
-                    for(Module module :allEnrolledElectiveModuleArrayList){
-
-                        if(!(moduleDefinition.getModuleCode().equals(module.getModuleCode()))){
-
-                            Module _module = new Module();
-                            _module.setUserId(profileId);
-                            _module.setStudentCategory(studentCategory);
-                            _module.setModuleCode(moduleDefinition.getModuleCode());
-                            _module.setModuleName(moduleDefinition.getModuleName());
-                            _module.setCredit(moduleDefinition.getModuleCredits());
-                            _module.setResult(null);
-                            _module.setGpa(moduleDefinition.getGpa());
-                            _module.setElective(moduleDefinition.getElective());
-                            _module.setEnrollment(false);
-
-                            allUnenrolledElectiveModuleArrayList.add(_module);
-                        }
+                for(Module module :allEnrolledElectiveModuleArrayList){
+                    if(moduleDefinition.getModuleCode().equals(module.getModuleCode())){
+                        tempModuleDefinitionArrayList.remove(tempModuleDefinitionArrayList.indexOf(moduleDefinition));
                     }
                 }
             }
+            for(ModuleDefinition moduleDefinition : tempModuleDefinitionArrayList){
+                Module _module = new Module();
+                _module.setUserId(profileId);
+                _module.setStudentCategory(studentCategory);
+                _module.setModuleCode(moduleDefinition.getModuleCode());
+                _module.setModuleName(moduleDefinition.getModuleName());
+                _module.setCredit(moduleDefinition.getModuleCredits());
+                _module.setResult(null);
+                _module.setGpa(moduleDefinition.getGpa());
+                _module.setElective(moduleDefinition.getElective());
+                _module.setEnrollment(false);
+
+                allUnenrolledElectiveModuleArrayList.add(_module);
+            }
+
+
+
+//            for(ModuleDefinition moduleDefinition : allElectiveModuleDefinitionArrayList){
+//                if(allEnrolledElectiveModuleArrayList.isEmpty()){
+//                    Module _module = new Module();
+//                    _module.setUserId(profileId);
+//                    _module.setStudentCategory(studentCategory);
+//                    _module.setModuleCode(moduleDefinition.getModuleCode());
+//                    _module.setModuleName(moduleDefinition.getModuleName());
+//                    _module.setCredit(moduleDefinition.getModuleCredits());
+//                    _module.setResult(null);
+//                    _module.setGpa(moduleDefinition.getGpa());
+//                    _module.setElective(moduleDefinition.getElective());
+//                    _module.setEnrollment(false);
+//
+//                    allUnenrolledElectiveModuleArrayList.add(_module);
+//                }else{
+//                    for(Module module :allEnrolledElectiveModuleArrayList){
+//
+//                        if(!(moduleDefinition.getModuleCode().equals(module.getModuleCode()))){
+//
+//                            Module _module = new Module();
+//                            _module.setUserId(profileId);
+//                            _module.setStudentCategory(studentCategory);
+//                            _module.setModuleCode(moduleDefinition.getModuleCode());
+//                            _module.setModuleName(moduleDefinition.getModuleName());
+//                            _module.setCredit(moduleDefinition.getModuleCredits());
+//                            _module.setResult(null);
+//                            _module.setGpa(moduleDefinition.getGpa());
+//                            _module.setElective(moduleDefinition.getElective());
+//                            _module.setEnrollment(false);
+//
+//                            allUnenrolledElectiveModuleArrayList.add(_module);
+//                        }
+//                    }
+//                }
+//            }
             return new ResponseEntity<>(allUnenrolledElectiveModuleArrayList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

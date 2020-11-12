@@ -42,6 +42,7 @@ export class StudentService {
   }
 
   updateStudentSemesterModule(module: Module) {
+    console.log(module)
     return this.http.put<Module>(`http://localhost:8081/module`, module);
   }
 }

@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { Semester } from 'src/app/data-models/Semester';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { Module } from 'src/app/data-models/Module';
 import { StudentService } from 'src/app/services/data/student.service';
 import { DataService } from 'src/app/services/data.service';
@@ -18,10 +18,11 @@ export class SemesterComponent implements OnInit {
   @Output() addElectiveModuleEvent = new EventEmitter<{ moduleId: String }>();
   @Output() removeElectiveModuleEvent = new EventEmitter<any>();
   unenroledElectiveModuleArrayChild: Module[];
+  abc: any;
 
 
   constructor(
-    private modalService: NgbModal,
+    private modal: NgbModal,
     private studentService: StudentService,
     private data: DataService) { }
 
@@ -70,29 +71,41 @@ export class SemesterComponent implements OnInit {
     this.cummulativeGPA(+semester.semesterNo)
   }
 
-  openXl(content) {
-    this.modalService.open(content, { size: 'xl' });
+  openXl(editSem) {
+    // this.data.latestUnenrolledEelectiveModuleArray.subscribe(updatedArray => this.unenroledElectiveModuleArrayChild = updatedArray);
+    this.modal.open(editSem, { size: 'xl' });
   }
 
-
-
-
+  public hideModel() {
+    this.modal.dismissAll();
+  }
 
   unenrollCompulsoryModule(moduleId) {
-    //  if (this.theSemester.semesterModule.filter((module) => module.id === moduleId && module.result == null).length = 1) {
-    const thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
-    thisModule.enrollment = false;
-    // } else {
-    //make alert
-    //  }
+    if (this.theSemester.semesterModule.filter((module) => module.id === moduleId && module.result == null).length = 1) {
+      var thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
+      thisModule.enrollment = false;
+      this.studentService.updateStudentSemesterModule(thisModule).subscribe(response => {
+      })
+    } else {
+      //make alert
+    }
   }
 
   enrollCompulsoryModule(moduleId) {
-    const thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
+    var thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
     thisModule.enrollment = true;
+    this.studentService.updateStudentSemesterModule(thisModule).subscribe(response => {
+    })
   }
 
-  addElectiveModule(moduleCode: String) {
+  updateModuleGrade(moduleId, moduleGrade) {
+    var thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
+    thisModule.result = moduleGrade;
+    this.studentService.updateStudentSemesterModule(thisModule).subscribe(response => {
+    })
+  }
+
+  addElectiveModule(moduleCode: String, theSemester: Semester) {
     var newModule = this.unenroledElectiveModuleArrayChild.find((module) => module.moduleCode === moduleCode);
     console.log(newModule)
     newModule.enrollment = true;
@@ -100,9 +113,13 @@ export class SemesterComponent implements OnInit {
     this.unenroledElectiveModuleArrayChild.splice(this.unenroledElectiveModuleArrayChild.findIndex((module) => module.moduleCode === moduleCode), 1);
     const updatedArray = this.unenroledElectiveModuleArrayChild;
     this.data.updateUnenrolledEelectiveModuleArray(updatedArray);
+    this.studentService.updateStudentSemester(theSemester).subscribe((response) => {
+      var createdNewModule = response.semesterModule.find((module) => module.moduleCode === moduleCode);
+      this.theSemester.semesterModule.find((module) => module.moduleCode === moduleCode).id = createdNewModule.id;
+    })
   }
 
-  removeEnrolledElectiveModuleFromSemester(moduleCode: String) {
+  removeEnrolledElectiveModuleFromSemester(moduleCode: String, moduleId: String, semesterId: String) {
     const updatedSemesterModuleArray = this.theSemester.semesterModule.filter((module) => module.moduleCode !== moduleCode);
     var module = this.theSemester.semesterModule.filter((module) => module.moduleCode === moduleCode);
     module[0].id = null
@@ -112,6 +129,22 @@ export class SemesterComponent implements OnInit {
     const updatedArray: Module[] = this.unenroledElectiveModuleArrayChild;
     this.data.updateUnenrolledEelectiveModuleArray(updatedArray);
     this.theSemester.semesterModule = updatedSemesterModuleArray;
+    this.studentService.removeEnrolledElectiveModuleFromSemester(moduleId, semesterId).subscribe(response => {
+
+    })
+  }
+
+
+  result() {
+    console.log(this.abc)
+  }
+
+
+  updateStudentSemester(theSemester) {
+
+    this.studentService.updateStudentSemester(theSemester).subscribe((Response) => {
+    })
+    this.hideModel()
   }
 }
 

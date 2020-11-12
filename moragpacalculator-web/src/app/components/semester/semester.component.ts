@@ -36,6 +36,21 @@ export class SemesterComponent implements OnInit {
     semester.semesterModule.forEach(module => totalCredits += module.credit)
     return totalCredits;
   }
+  calculateTotalEfectiveSemesterCredits(semester: Semester) {
+    var totalCredits: number = 0;
+    semester.semesterModule.filter(module => module.enrollment == true && module.result != null).forEach(module => totalCredits += module.credit)
+    return totalCredits;
+  }
+  calculateSemesterGPA(semester: Semester) {
+    var semsterGPA: number;
+    var TR: number[];
+    TR = semester.semesterModule.filter((module) => module.enrollment == true && module.result != null).map(module => module.credit * module.result)
+
+    semsterGPA = TR.reduce((a, b) => a + b, 0) / this.calculateTotalEfectiveSemesterCredits(semester);
+    semester.semesterGPA = semsterGPA;
+
+    return semsterGPA;
+  }
 
   public cummulativeGPA(semesterNo: number) {
 
@@ -92,14 +107,15 @@ export class SemesterComponent implements OnInit {
   }
 
   enrollCompulsoryModule(moduleId) {
-    var thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
+    const thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
     thisModule.enrollment = true;
     this.studentService.updateStudentSemesterModule(thisModule).subscribe(response => {
+      console.log(response.enrollment)
     })
   }
 
   updateModuleGrade(moduleId, moduleGrade) {
-    var thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
+    const thisModule = this.theSemester.semesterModule.find((module) => module.id === moduleId);
     thisModule.result = moduleGrade;
     this.studentService.updateStudentSemesterModule(thisModule).subscribe(response => {
     })
@@ -135,8 +151,8 @@ export class SemesterComponent implements OnInit {
   }
 
 
-  result() {
-    console.log(this.abc)
+  result(newValue) {
+    console.log(newValue, this.abc)
   }
 
 

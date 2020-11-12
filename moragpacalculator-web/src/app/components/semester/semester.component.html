@@ -54,8 +54,10 @@
             <tr>
                 <td>Total Semester Credits</td>
                 <td>{{calculateTotalSemesterCredits(theSemester)}}</td>
+                <td>Total Efective Credits For SGPA</td>
+                <td>{{calculateTotalEfectiveSemesterCredits(theSemester)}}</td>
                 <td>Semester GPA</td>
-                <td>{{theSemester.semesterGPA}}</td>
+                <td>{{calculateSemesterGPA(theSemester) | number:'1.2-2'}}</td>
                 <td>Cumulative GPA</td>
                 <td>{{theSemester.cumulativeGPA}}</td>
             </tr>
@@ -94,20 +96,24 @@
                         <td>{{module.moduleCode}}</td>
                         <td>{{module.moduleName | uppercase}}</td>
                         <td>
-                            <select type="number" [(ngModel)]="module.result" (ngModelChange)="result()">
-                                <!-- <option selected>-SELECT-</option> -->
-                                <option [ngValue]="4.0">A</option>
-                                <option [ngValue]="4.2">A+</option>
-                                <!-- <option value="3.7">A-</option>
-                                
-                                <option value="3.3">B+</option>
-                                <option value="3.0">B</option>
-                                <option value="2.7">B-</option>
-                                <option value="2.3">C+</option>
-                                <option value="2.0">C</option>
-                                <option value="1.5">C-</option>
-                                <option value="1">D</option> -->
-                            </select>
+                            <!-- <input> -->
+                            <form #form_1="ngForm">
+                                <select type="number" ngModel name="priceInp" #priceInp="ngModel"
+                                    (click)="result(form_1)">
+                                    <!-- <option selected>-SELECT-</option> -->
+                                    <option [ngValue]="4.0">A</option>
+                                    <option [ngValue]="4.2">A+</option>
+                                    <!-- <option value="3.7">A-</option>
+                                    
+                                    <option value="3.3">B+</option>
+                                    <option value="3.0">B</option>
+                                    <option value="2.7">B-</option>
+                                    <option value="2.3">C+</option>
+                                    <option value="2.0">C</option>
+                                    <option value="1.5">C-</option>
+                                    <option value="1">D</option> -->
+                                </select></form>
+                            <!-- </input> -->
                         </td>
                         <td>{{module.credit}}</td>
 

@@ -32,18 +32,18 @@ export class HomeComponent implements OnInit {
   getStudent(profileId: String) {
     this.studentService.getStudentByProfileId(profileId).subscribe(
       response => {
-        this.theStudent = response;
         console.log(response);
+        this.theStudent = response;
         //need to modifi with after execution
         this.getUnenrolledElectiveModules(this.theStudent.studentCategory.course, this.theStudent.userProfile.id);
-        console.log(this.unenroledElectiveModuleArrayParent)
       })
   }
 
   getUnenrolledElectiveModules(courseName, profileId) {
     this.studentService.getUnenrolledElectiveModules(courseName, profileId).subscribe(
       response => {
-        this.data.updateUnenrolledEelectiveModuleArray(response);
+        var updatedUnenroledElectiveModuleArray: Module[] = response;
+        this.data.updateUnenrolledEelectiveModuleArray(updatedUnenroledElectiveModuleArray);
       })
   }
 

@@ -54,8 +54,10 @@
             <tr>
                 <td>Total Semester Credits</td>
                 <td>{{calculateTotalSemesterCredits(theSemester)}}</td>
+                <td>Total Efective Credits For SGPA</td>
+                <td>{{calculateTotalEfectiveSemesterCredits(theSemester)}}</td>
                 <td>Semester GPA</td>
-                <td>{{theSemester.semesterGPA}}</td>
+                <td>{{calculateSemesterGPA(theSemester) | number:'1.2-2'}}</td>
                 <td>Cumulative GPA</td>
                 <td>{{theSemester.cumulativeGPA}}</td>
             </tr>
@@ -69,7 +71,7 @@
 <ng-template #content let-modal>
     <div class="modal-header">
         <h4 class="modal-title">Edit Semester</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <button type="button" class="close" aria-label="Close" (click)="hideModel()">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -93,7 +95,26 @@
                     <tr *ngFor="let module of theSemester.semesterModule">
                         <td>{{module.moduleCode}}</td>
                         <td>{{module.moduleName | uppercase}}</td>
-                        <td>{{module.result}}</td>
+                        <td>
+                            <!-- <input> -->
+                            <form #form_1="ngForm">
+                                <select type="number" ngModel name="priceInp" #priceInp="ngModel"
+                                    (click)="result(form_1)">
+                                    <!-- <option selected>-SELECT-</option> -->
+                                    <option [ngValue]="4.0">A</option>
+                                    <option [ngValue]="4.2">A+</option>
+                                    <!-- <option value="3.7">A-</option>
+                                    
+                                    <option value="3.3">B+</option>
+                                    <option value="3.0">B</option>
+                                    <option value="2.7">B-</option>
+                                    <option value="2.3">C+</option>
+                                    <option value="2.0">C</option>
+                                    <option value="1.5">C-</option>
+                                    <option value="1">D</option> -->
+                                </select></form>
+                            <!-- </input> -->
+                        </td>
                         <td>{{module.credit}}</td>
 
                         <td *ngIf="(module.gpa); else nonGPA">GPA</td>
@@ -125,7 +146,8 @@
                             </td>
                         </ng-template>
                         <ng-template #remove>
-                            <td> <button (click)=removeEnrolledElectiveModuleFromSemester(module.moduleCode)
+                            <td> <button
+                                    (click)=removeEnrolledElectiveModuleFromSemester(module.moduleCode,module.id,theSemester.id)
                                     class="btn btn-warning">
                                     Remove</button></td>
                         </ng-template>
@@ -155,7 +177,8 @@
                         <ng-template #nonGPA>
                             <td>Non GPA</td>
                         </ng-template>
-                        <td> <button (click)=addElectiveModule(module.moduleCode) class="btn btn-success">Add
+                        <td> <button (click)=addElectiveModule(module.moduleCode,theSemester)
+                                class="btn btn-success">Add
                                 Module</button>
                         </td>
                     </tr>
@@ -165,7 +188,7 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-success" (click)="fixSemester(theSemester)">Save</button>
+        <!-- <button type="button" class="btn btn-success" (click)="updateStudentSemester(theSemester)">Save</button> -->
         <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
     </div>
 </ng-template>

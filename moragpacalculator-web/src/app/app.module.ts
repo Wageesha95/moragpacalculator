@@ -15,6 +15,7 @@ import { StudentService } from "./services/data/student.service";
 import { AdminComponent } from './components/admin/admin.component';
 import { ErrorComponent } from './components/error/error.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
 import { SemesterEditorComponent } from './components/semester-editor/semester-editor.component';
 
 @NgModule({
@@ -34,6 +35,7 @@ import { SemesterEditorComponent } from './components/semester-editor/semester-e
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
+    ReactiveFormsModule,
     NgbModule
   ],
   providers: [AdminService, StudentService],

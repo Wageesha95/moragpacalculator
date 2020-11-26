@@ -4,17 +4,20 @@ import { LoginComponent } from './components/login/login.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { HomeComponent } from './components/home/home.component';
 import { ErrorComponent } from './components/error/error.component';
+import { SemesterEditorComponent } from './components/semester-editor/semester-editor.component';
 
 const routes: Routes = [
 
-  
-  {path : '', component:WelcomeComponent},
 
-  {path : 'login', component:LoginComponent},
-  
-  {path: 'home', component:HomeComponent}, 
+  { path: '', component: WelcomeComponent },
 
-  {path : '**', component:ErrorComponent}
+  { path: 'login', component: LoginComponent },
+
+  { path: 'home', component: HomeComponent },
+
+  { path: 'edit', component: SemesterEditorComponent },
+
+  { path: '**', component: ErrorComponent }
 
 
 ];
@@ -26,4 +29,4 @@ const routes: Routes = [
 export class AppRoutingModule {
 
 
- }
+}
